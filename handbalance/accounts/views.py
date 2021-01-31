@@ -48,3 +48,9 @@ def logout_user(request):
 def account_page(request):
     context = {}
     return render(request, 'accounts/account.html', context)
+
+
+@login_required(login_url='login')
+def diary_page(request):
+    context = {}
+    return render(request, 'accounts/diary.html', context)
