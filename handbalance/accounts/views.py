@@ -3,8 +3,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-
-# Create your views here.
+from django.http import HttpResponseRedirect, HttpResponseBadRequest
+from .models import TaskList
 
 
 def login_page(request):
@@ -52,19 +52,60 @@ def account_page(request):
 
 @login_required(login_url='login')
 def diary_page(request):
-    import random
-
     _blocks = [(f'Block {i + 1}',
                 [(f'Ex {j + 10 * i}', str(j + 1 + 10 * i), str(2 * j + 2 + 10 * i)) for j in range(4)]
                 ) for i in range(4)]
 
+    try:
+        done_tasks = TaskList.objects.get(user=request.user).tasks
+    except TaskList.DoesNotExist:
+        done_tasks = 0
+
     blocks = []
     done = []
 
-    for name, tasks in _blocks:
-        block = {'name': name, 'tasks': []}
-        for task_name, duration, repetitions in tasks:
-            block['tasks'].append({'name': task_name, 'duration': duration, 'repetitions': repetitions})
-        blocks.append(block)
+    for block_id, (name, tasks) in enumerate(_blocks):
+        block_tasks = []
+        for task_id, (task_name, duration, repetitions) in enumerate(tasks):
+            task_id = task_id + 4 * block_id
+
+            task = {'name': task_name, 'duration': duration, 'repetitions': repetitions, 'id': task_id}
+
+            if done_tasks & (1 << task_id):
+                task['block'] = block_id + 1
+                done.append(task)
+            else:
+                block_tasks.append(task)
+
+        if block_tasks:
+            blocks.append({'name': name, 'tasks': block_tasks})
 
     return render(request, 'accounts/diary.html', {'blocks': blocks, 'done': done})
+
+
+@login_required(login_url='login')
+def complete_task(request, task_id):
+    try:
+        done_tasks = TaskList.objects.get(user=request.user)
+
+        done_tasks.tasks |= 1 << task_id
+
+        done_tasks.save()
+    except TaskList.DoesNotExist:
+        TaskList(user=request.user, tasks=1 << task_id).save()
+
+    return HttpResponseRedirect('/diary')
+
+
+@login_required(login_url='login')
+def return_task(request, task_id):
+    try:
+        done_tasks = TaskList.objects.get(user=request.user)
+
+        done_tasks.tasks ^= 1 << task_id
+
+        done_tasks.save()
+    except TaskList.DoesNotExist:
+        return HttpResponseBadRequest()
+
+    return HttpResponseRedirect('/diary')
