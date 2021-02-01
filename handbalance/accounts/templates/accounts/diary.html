@@ -59,14 +59,12 @@
                                         <td>{{ task.name }}</td>
                                         <td>{{ task.duration }} sec</td>
                                         <td>{{ task.repetitions }}</td>
-                                        <form action="/completeTask/{{ task.id }}" method="post">{% csrf_token %}
-                                            <input class="js-scroll-trigger" type="submit" value="Done">
-                                        </form>
+                                        <td><a class="nav-link js-scroll-trigger" href="/completeTask/{{ task.id }}">Done</a></td>
                                     </tr>
                                     {% endfor %}
                                 </table>
                                 <br>
-                                <a class="btn btn-primary js-scroll-trigger" href="#">Finish block 1</a>
+                                <a class="btn btn-primary js-scroll-trigger" href="/completeBlock/{{ block.id }}">Finish {{ block.name }}</a>
                             </div>
                         {% endfor %}
                         {% if done %}
@@ -87,14 +85,12 @@
                                             <td>{{ task.duration }} sec</td>
                                             <td>{{ task.repetitions }}</td>
                                             <td>{{ task.block }}</td>
-                                            <form action="/returnTask/{{ task.id }}" method="post">{% csrf_token %}
-                                                <input class="js-scroll-trigger" type="submit" value="Return">
-                                            </form>
+                                            <td><a class="nav-link js-scroll-trigger" href="/returnTask/{{ task.id }}">Return</a></td>
                                         </tr>
                                     {% endfor %}
                                 </table>
                                 <br>
-                                <a class="btn btn-primary js-scroll-trigger" href="#">Return all</a>
+                                <a class="btn btn-primary js-scroll-trigger" href="/returnAllTasks">Return all</a>
                             </div>
                         {% endif %}
                     </div>

@@ -78,7 +78,7 @@ def diary_page(request):
                 block_tasks.append(task)
 
         if block_tasks:
-            blocks.append({'name': name, 'tasks': block_tasks})
+            blocks.append({'name': name, 'tasks': block_tasks, 'id': block_id})
 
     return render(request, 'accounts/diary.html', {'blocks': blocks, 'done': done})
 
@@ -98,11 +98,39 @@ def complete_task(request, task_id):
 
 
 @login_required(login_url='login')
+def complete_block(request, block_id):
+    try:
+        done_tasks = TaskList.objects.get(user=request.user)
+
+        done_tasks.tasks |= 0b1111 << 4 * block_id
+
+        done_tasks.save()
+    except TaskList.DoesNotExist:
+        TaskList(user=request.user, tasks=0b1111 << 4 * block_id).save()
+
+    return HttpResponseRedirect('/diary')
+
+
+@login_required(login_url='login')
 def return_task(request, task_id):
     try:
         done_tasks = TaskList.objects.get(user=request.user)
 
         done_tasks.tasks ^= 1 << task_id
+
+        done_tasks.save()
+    except TaskList.DoesNotExist:
+        return HttpResponseBadRequest()
+
+    return HttpResponseRedirect('/diary')
+
+
+@login_required(login_url='login')
+def return_all_tasks(request):
+    try:
+        done_tasks = TaskList.objects.get(user=request.user)
+
+        done_tasks.tasks = 0
 
         done_tasks.save()
     except TaskList.DoesNotExist:
