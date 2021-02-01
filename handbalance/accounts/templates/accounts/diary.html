@@ -44,109 +44,29 @@
             <section class="about-section text-center" id="about">
                 <div class="container">
                     <div class="row">
-                        <div class="col-lg-8 mx-auto block1">
-                            <h2 class="text-white mb-4">Block 1</h2>
-                              <table class="steelBlueCols" border="1">
-                               <tr>
-                                <th>Ex. name</th>
-                                <th>Ex. time</th>
-                                <th>Times</th>
-                                <th>Done</th>
-                               </tr>
-                               <tr>
-                                   <td>Foo</td><td>42 sec</td><td>2</td><td><a class="nav-link js-scroll-trigger" href="">Done</a></td>
-                               </tr>
-                               <tr>
-                                   <td>Fa</td><td>420 sec</td><td>3</td><td><a class="nav-link js-scroll-trigger" href="">Done</a></td>
-                               </tr>
-                               <tr>
-                                   <td>Doo</td><td>4,2 sec</td><td>2</td><td><a class="nav-link js-scroll-trigger" href="">Done</a></td>
-                               </tr>
-                               <tr>
-                                   <td>Poo</td><td>40,2 sec</td><td>4</td><td><a class="nav-link js-scroll-trigger" href="">Done</a></td>
-                               </tr>
-                              </table>
-                              <br>
-                              <a class="btn btn-primary js-scroll-trigger" href="#">Finish block 1</a>
-                        </div>
-                        <div class="col-lg-8 mx-auto block2">
-                            <br>
-                            <h2 class="text-white mb-4">Block 2</h2>
-                              <table class="steelBlueCols" border="1">
-                               <tr>
-                                <th>Ex. name</th>
-                                <th>Ex. time</th>
-                                <th>Times</th>
-                                <th>Done</th>
-                               </tr>
-                               <tr>
-                                   <td>Foo</td><td>42 sec</td><td>2</td><td><a class="nav-link js-scroll-trigger" href="">Done</a></td>
-                               </tr>
-                               <tr>
-                                   <td>Fa</td><td>420 sec</td><td>3</td><td><a class="nav-link js-scroll-trigger" href="">Done</a></td>
-                               </tr>
-                               <tr>
-                                   <td>Doo</td><td>4,2 sec</td><td>2</td><td><a class="nav-link js-scroll-trigger" href="">Done</a></td>
-                               </tr>
-                               <tr>
-                                   <td>Poo</td><td>40,2 sec</td><td>4</td><td><a class="nav-link js-scroll-trigger" href="">Done</a></td>
-                               </tr>
-                              </table>
-                              <br>
-                              <a class="btn btn-primary js-scroll-trigger" href="#">Finish block 2</a>
-                        </div>
-                        <div class="col-lg-8 mx-auto block3">
-                            <br>
-                            <h2 class="text-white mb-4">Block 3</h2>
-                              <table class="steelBlueCols" border="1">
-                               <tr>
-                                <th>Ex. name</th>
-                                <th>Ex. time</th>
-                                <th>Times</th>
-                                <th>Done</th>
-                               </tr>
-                               <tr>
-                                   <td>Foo</td><td>42 sec</td><td>2</td><td><a class="nav-link js-scroll-trigger">Done</a></td>
-                               </tr>
-                               <tr>
-                                   <td>Fa</td><td>420 sec</td><td>3</td><td><a class="nav-link js-scroll-trigger" href="">Done</a></td>
-                               </tr>
-                               <tr>
-                                   <td>Doo</td><td>4,2 sec</td><td>2</td><td><a class="nav-link js-scroll-trigger" href="">Done</a></td>
-                               </tr>
-                               <tr>
-                                   <td>Poo</td><td>40,2 sec</td><td>4</td><td><a class="nav-link js-scroll-trigger" href="">Done</a></td>
-                               </tr>
-                              </table>
-                              <br>
-                              <a class="btn btn-primary js-scroll-trigger" href="#">Finish block 3</a>
-                        </div>
-                        <div class="col-lg-8 mx-auto block4">
-                            <br>
-                            <h2 class="text-white mb-4">Block 4</h2>
-                              <table class="steelBlueCols" border="1">
-                               <tr>
-                                <th>Ex. name</th>
-                                <th>Ex. time</th>
-                                <th>Times</th>
-                                <th>Done</th>
-                               </tr>
-                               <tr>
-                                   <td>Foo</td><td>42 sec</td><td>2</td><td><a class="nav-link js-scroll-trigger">Done</a></td>
-                               </tr>
-                               <tr>
-                                   <td>Fa</td><td>420 sec</td><td>3</td><td><a class="nav-link js-scroll-trigger" href="">Done</a></td>
-                               </tr>
-                               <tr>
-                                   <td>Doo</td><td>4,2 sec</td><td>2</td><td><a class="nav-link js-scroll-trigger" href="">Done</a></td>
-                               </tr>
-                               <tr>
-                                   <td>Poo</td><td>40,2 sec</td><td>4</td><td><a class="nav-link js-scroll-trigger" href="">Done</a></td>
-                               </tr>
-                              </table>
-                              <br>
-                              <a class="btn btn-primary js-scroll-trigger" href="#">Finish block 4</a>
-                        </div>
+                        {% for block in blocks %}
+                            <div class="col-lg-8 mx-auto block1">
+                                <h2 class="text-white mb-4">{{ block.name }}</h2>
+                                <table class="steelBlueCols" border="1">
+                                    <tr>
+                                        <th>Ex. name</th>
+                                        <th>Ex. time</th>
+                                        <th>Times</th>
+                                        <th>Done</th>
+                                    </tr>
+                                    {% for task in block.tasks %}
+                                    <tr>
+                                        <td>{{ task.name }}</td>
+                                        <td>{{ task.duration }} sec</td>
+                                        <td>{{ task.repetitions }}</td>
+                                        <td><a class="nav-link js-scroll-trigger" href="">Done</a></td>
+                                    </tr>
+                                    {% endfor %}
+                                </table>
+                                <br>
+                                <a class="btn btn-primary js-scroll-trigger" href="#">Finish block 1</a>
+                            </div>
+                        {% endfor %}
                          <div class="col-lg-8 mx-auto done">
                             <br>
                             <h2 class="text-white mb-4">Done exercises</h2>

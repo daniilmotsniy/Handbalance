@@ -52,5 +52,19 @@ def account_page(request):
 
 @login_required(login_url='login')
 def diary_page(request):
-    context = {}
-    return render(request, 'accounts/diary.html', context)
+    import random
+
+    _blocks = [(f'Block {i + 1}',
+                [(f'Ex {j + 10 * i}', str(j + 1 + 10 * i), str(2 * j + 2 + 10 * i)) for j in range(4)]
+                ) for i in range(4)]
+
+    blocks = []
+    done = []
+
+    for name, tasks in _blocks:
+        block = {'name': name, 'tasks': []}
+        for task_name, duration, repetitions in tasks:
+            block['tasks'].append({'name': task_name, 'duration': duration, 'repetitions': repetitions})
+        blocks.append(block)
+
+    return render(request, 'accounts/diary.html', {'blocks': blocks, 'done': done})
