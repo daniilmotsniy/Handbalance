@@ -1,0 +1,33 @@
+{% extends 'accounts/base.html' %}
+
+{% block title %}
+About
+{% endblock %}
+
+{% block body %}
+        <!-- Blocks -->
+        <div class="diary_table">
+            <section class="about-section text-center" id="about">
+                <div class="container">
+                    <div class="row">
+                            <div class="col-lg-8 mx-auto block1">
+                                <h2 class="text-white mb-4">Leaders</h2>
+                                <table class="steelBlueCols" border="1">
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Balance</th>
+                                    </tr>
+                                    {% for key, value in users.items %}
+                                    <tr>
+                                        <td>{{ key }}</td>
+                                        <td>{{ value }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </table>
+                                <br>
+                            </div>
+                    </div>
+                </div><br>
+            </section>
+        </div>
+{% endblock %}
