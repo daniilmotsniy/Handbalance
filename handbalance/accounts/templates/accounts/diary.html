@@ -52,19 +52,19 @@
                                         <th>Ex. name</th>
                                         <th>Ex. time</th>
                                         <th>Times</th>
-                                        <th>Done</th>
                                     </tr>
                                     {% for task in block.tasks %}
                                     <tr>
                                         <td>{{ task.name }}</td>
                                         <td>{{ task.duration }} sec</td>
                                         <td>{{ task.repetitions }}</td>
-                                        <td><a class="nav-link js-scroll-trigger" href="/completeTask/{{ task.id }}">Done</a></td>
                                     </tr>
                                     {% endfor %}
                                 </table>
                                 <br>
+                                {% if available_for_editing %}
                                 <a class="btn btn-primary js-scroll-trigger" href="/completeBlock/{{ block.id }}">Finish {{ block.name }}</a>
+                                {% endif %}
                             </div>
                         {% endfor %}
                         {% if done %}
@@ -77,7 +77,6 @@
                                         <th>Ex. time</th>
                                         <th>Times</th>
                                         <th>Block</th>
-                                        <th>Done</th>
                                     </tr>
                                     {% for task in done %}
                                         <tr>
@@ -85,7 +84,6 @@
                                             <td>{{ task.duration }} sec</td>
                                             <td>{{ task.repetitions }}</td>
                                             <td>{{ task.block }}</td>
-                                            <td><a class="nav-link js-scroll-trigger" href="/returnTask/{{ task.id }}">Return</a></td>
                                         </tr>
                                     {% endfor %}
                                 </table>

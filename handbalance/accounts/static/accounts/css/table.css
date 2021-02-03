@@ -5,11 +5,15 @@ a {
     margin: auto;
 }
 
+table {
+    width: auto;
+}
+
 table.steelBlueCols {
   color: #ffffff;
   border: 4px solid #555555;
   background-color: #555555;
-  width: 400px;
+  width: auto;
   text-align: center;
   border-collapse: collapse;
   margin: auto;

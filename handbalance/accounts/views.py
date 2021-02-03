@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import HttpResponseRedirect, HttpResponseBadRequest
 from .models import TaskList
+from django.utils import timezone
 
 
 def login_page(request):
@@ -74,8 +75,12 @@ def diary_page(request):
 
     try:
         done_tasks = TaskList.objects.get(user=request.user).tasks
+        available_for_editing = False
+        if TaskList.objects.get(user=request.user).last_activity != timezone.now().date():
+            available_for_editing = True
     except TaskList.DoesNotExist:
         done_tasks = 0
+        available_for_editing = False
 
     blocks = []
     done = []
@@ -101,7 +106,8 @@ def diary_page(request):
     except TaskList.DoesNotExist:
         balance = 0
 
-    return render(request, 'accounts/diary.html', {'blocks': blocks, 'done': done, 'balance': balance})
+    return render(request, 'accounts/diary.html', {'blocks': blocks, 'done': done, 'balance': balance,
+                                                   'available_for_editing': available_for_editing})
 
 
 @login_required(login_url='login')
@@ -129,6 +135,8 @@ def complete_block(request, block_id):
         done_tasks.tasks |= 0b1111 << 4 * block_id
 
         done_tasks.balance += 1
+
+        done_tasks.last_activity = timezone.now().date()
 
         done_tasks.save()
 
@@ -160,8 +168,6 @@ def return_all_tasks(request):
         done_tasks = TaskList.objects.get(user=request.user)
 
         done_tasks.tasks = 0
-
-        done_tasks.balance = 0
 
         done_tasks.save()
     except TaskList.DoesNotExist:
