@@ -9,10 +9,13 @@ from django.http import HttpResponseRedirect, HttpResponseBadRequest
 from .models import TaskList, TaskBlock
 from django.utils import timezone
 
+
+# count of tasks in one block
 _tasks_per_block = 5
 
 
 def login_page(request):
+    """ Login logic """
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -30,6 +33,7 @@ def login_page(request):
 
 
 def register_page(request):
+    """ Register logic """
     form = UserCreationForm()
 
     if request.method == 'POST':
@@ -46,17 +50,25 @@ def register_page(request):
 
 @login_required(login_url='login')
 def logout_user(request):
+    """ Logout logic """
     logout(request)
     return redirect('/login')
 
 
 @login_required(login_url='login')
 def account_page(request):
-    context = {}
-    return render(request, 'accounts/account.html', context)
+    """ This func allows define which block will be shown by 'start training' btn """
+    try:
+        balance = TaskList.objects.get(user=request.user).balance
+        link_to_block = 'block' + str(int(balance/5))
+    except TaskList.DoesNotExist:
+        balance = 0
+
+    return render(request, 'accounts/account.html', {'link_to_block': link_to_block})
 
 
 def leaders(request):
+    """ Leaders page logic """
     try:
         info = TaskList.objects.all()
         raw = {}
@@ -69,8 +81,13 @@ def leaders(request):
 
 
 # Diary page
+
+
 @login_required(login_url='login')
 def diary_page(request):
+    """ Main logic of 'training dairy' """
+
+    # information will be shown on all blocks
     _blocks = [(f'Block {i + 1}',
                 [(f'Ex {j + 10 * i}', str(j + 1 + 10 * i), str(2 * j + 2 + 10 * i)) for j in range(_tasks_per_block)]
                 ) for i in range(10)]
@@ -116,6 +133,7 @@ def diary_page(request):
 
 @login_required(login_url='login')
 def complete_task(request, block_id, task_id):
+    """ Moves task to the 'done tasks' """
     try:
         block = TaskBlock.objects.get(user=request.user, block_id=block_id)
 
@@ -139,6 +157,7 @@ def complete_task(request, block_id, task_id):
 
 @login_required(login_url='login')
 def complete_block(request, block_id):
+    """ Moves block to the 'done tasks' """
     try:
         block = TaskBlock.objects.get(user=request.user, block_id=block_id)
 
@@ -168,6 +187,7 @@ def complete_block(request, block_id):
 
 @login_required(login_url='login')
 def return_task(request, block_id, task_id):
+    """ Moves task back to the block """
     try:
         done_tasks = TaskList.objects.get(user=request.user)
         block = TaskBlock.objects.get(user=request.user, block_id=block_id)
@@ -187,6 +207,7 @@ def return_task(request, block_id, task_id):
 
 @login_required(login_url='login')
 def return_block(request, block_id):
+    """ Moves block back """
     try:
         done_tasks = TaskList.objects.get(user=request.user)
         block = TaskBlock.objects.get(user=request.user, block_id=block_id)
@@ -197,7 +218,7 @@ def return_block(request, block_id):
 
         done_tasks.balance -= tasks_returned
 
-        done_tasks.last_activity = timezone.now().date()
+        done_tasks.last_activity = '2000-04-20'
 
         done_tasks.save()
         block.save()
@@ -209,6 +230,7 @@ def return_block(request, block_id):
 
 @login_required(login_url='login')
 def return_all_tasks(request):
+    """ Moves all blocks back """
     try:
         done_tasks = TaskList.objects.get(user=request.user)
         blocks = TaskBlock.objects.filter(user=request.user)
