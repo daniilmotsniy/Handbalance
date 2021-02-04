@@ -77,11 +77,20 @@
                                         <th>Block</th>
                                         <th>Done</th>
                                     </tr>
-                                    {% for task in done %}
-                                        <tr>
-                                            <td>{{ task.block_id|add:1 }}</td>
-                                            <td><a class="nav-link js-scroll-trigger" href="/returnTask/{{ task.block_id }}/{{ task.id }}">Return</a></td>
-                                        </tr>
+                                    {% for block in done %}
+                                        {% for task in block %}
+                                            {% if forloop.first %}
+                                                <tr>
+                                                    <td>{{ task.name }}</td>
+                                                    <td rowspan="{{ block|length }}">{{ task.block_id|add:1 }}</td>
+                                                    <td rowspan="{{ block|length }}"><a class="nav-link js-scroll-trigger" href="/returnBlock/{{ task.block_id }}">Return</a></td>
+                                                </tr>
+                                            {% else %}
+                                                <tr>
+                                                    <td>{{ task.name }}</td>
+                                                </tr>
+                                            {% endif %}
+                                        {% endfor %}
                                     {% endfor %}
                                 </table>
                                 <br>

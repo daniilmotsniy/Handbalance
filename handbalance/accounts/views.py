@@ -90,7 +90,7 @@ def diary_page(request):
 
         done_tasks = {k: list(v) for k, v in done_tasks.items()}
     except TaskBlock.DoesNotExist:
-        done_tasks = [False] * sum(len(tasks) for _, tasks in _blocks)
+        done_tasks = {}
 
     blocks = []
     done = []
@@ -98,14 +98,17 @@ def diary_page(request):
     for block_id, (name, tasks) in enumerate(_blocks):
         block_done_tasks = done_tasks.get(block_id, [False] * _tasks_per_block)
         block_tasks = []
+        block_done = []
         for task_id, ((task_name, duration, repetitions), task_done) in enumerate(zip(tasks, block_done_tasks)):
             task = {'name': task_name, 'duration': duration, 'repetitions': repetitions,
                     'block_id': block_id, 'id': task_id}
 
-            (done if task_done else block_tasks).append(task)
+            (block_done if task_done else block_tasks).append(task)
 
         if block_tasks:
             blocks.append({'name': name, 'tasks': block_tasks, 'id': block_id})
+        if block_done:
+            done.append(block_done)
 
     return render(request, 'accounts/diary.html', {'blocks': blocks, 'done': done, 'balance': balance,
                                                    'available_for_editing': available_for_editing})
@@ -173,6 +176,28 @@ def return_task(request, block_id, task_id):
 
         done_tasks.balance -= 1
         done_tasks.last_activity = '2000-04-20'
+
+        done_tasks.save()
+        block.save()
+    except (TaskList.DoesNotExist, TaskBlock.DoesNotExist):
+        return HttpResponseBadRequest()
+
+    return HttpResponseRedirect('/diary')
+
+
+@login_required(login_url='login')
+def return_block(request, block_id):
+    try:
+        done_tasks = TaskList.objects.get(user=request.user)
+        block = TaskBlock.objects.get(user=request.user, block_id=block_id)
+
+        tasks_returned = sum(bool(block.tasks & 1 << i) for i in range(block.tasks_count))
+
+        block.tasks = 0
+
+        done_tasks.balance -= tasks_returned
+
+        done_tasks.last_activity = timezone.now().date()
 
         done_tasks.save()
         block.save()

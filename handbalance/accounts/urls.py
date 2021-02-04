@@ -10,6 +10,7 @@ urlpatterns = [
     path('leaders', views.leaders),
     path('completeTask/<int:block_id>/<int:task_id>', views.complete_task),  # FIXME unused?
     path('completeBlock/<int:block_id>', views.complete_block),
-    path('returnTask/<int:block_id>/<int:task_id>', views.return_task),
+    path('returnTask/<int:block_id>/<int:task_id>', views.return_task),  # FIXME unused?
+    path('returnBlock/<int:block_id>', views.return_block),
     path('returnAllTasks', views.return_all_tasks)
 ]
