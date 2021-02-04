@@ -79,7 +79,6 @@
                                     </tr>
                                     {% for task in done %}
                                         <tr>
-                                            <td>{{ task.name }}</td>
                                             <td>{{ task.block_id|add:1 }}</td>
                                             <td><a class="nav-link js-scroll-trigger" href="/returnTask/{{ task.block_id }}/{{ task.id }}">Return</a></td>
                                         </tr>
