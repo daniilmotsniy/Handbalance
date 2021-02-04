@@ -6,8 +6,10 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import HttpResponseRedirect, HttpResponseBadRequest
-from .models import TaskList
+from .models import TaskList, TaskBlock
 from django.utils import timezone
+
+_tasks_per_block = 5
 
 
 def login_page(request):
@@ -70,59 +72,64 @@ def leaders(request):
 @login_required(login_url='login')
 def diary_page(request):
     _blocks = [(f'Block {i + 1}',
-                [(f'Ex {j + 10 * i}', str(j + 1 + 10 * i), str(2 * j + 2 + 10 * i)) for j in range(4)]
-                ) for i in range(4)]
+                [(f'Ex {j + 10 * i}', str(j + 1 + 10 * i), str(2 * j + 2 + 10 * i)) for j in range(_tasks_per_block)]
+                ) for i in range(10)]
 
     try:
-        done_tasks = TaskList.objects.get(user=request.user).tasks
-        available_for_editing = False
-        if TaskList.objects.get(user=request.user).last_activity != timezone.now().date():
-            available_for_editing = True
+        task_list = TaskList.objects.get(user=request.user)
+
+        balance = task_list.balance
+        available_for_editing = task_list.last_activity != timezone.now().date()
     except TaskList.DoesNotExist:
-        done_tasks = 0
+        balance = 0
         available_for_editing = False
+
+    try:
+        done_tasks = {t.block_id: [bool(t.tasks & 1 << i) for i in range(t.tasks_count)]
+                      for t in sorted(TaskBlock.objects.filter(user=request.user), key=lambda b: b.block_id)}
+
+        done_tasks = {k: list(v) for k, v in done_tasks.items()}
+    except TaskBlock.DoesNotExist:
+        done_tasks = [False] * sum(len(tasks) for _, tasks in _blocks)
 
     blocks = []
     done = []
 
     for block_id, (name, tasks) in enumerate(_blocks):
+        block_done_tasks = done_tasks.get(block_id, [False] * _tasks_per_block)
         block_tasks = []
-        for task_id, (task_name, duration, repetitions) in enumerate(tasks):
-            task_id = task_id + 4 * block_id
+        for task_id, ((task_name, duration, repetitions), task_done) in enumerate(zip(tasks, block_done_tasks)):
+            task = {'name': task_name, 'duration': duration, 'repetitions': repetitions,
+                    'block_id': block_id, 'id': task_id}
 
-            task = {'name': task_name, 'duration': duration, 'repetitions': repetitions, 'id': task_id}
-
-            if done_tasks & (1 << task_id):
-                task['block'] = block_id + 1
-                done.append(task)
-            else:
-                block_tasks.append(task)
+            (done if task_done else block_tasks).append(task)
 
         if block_tasks:
             blocks.append({'name': name, 'tasks': block_tasks, 'id': block_id})
-
-    try:
-        balance = TaskList.objects.get(user=request.user).balance
-    except TaskList.DoesNotExist:
-        balance = 0
 
     return render(request, 'accounts/diary.html', {'blocks': blocks, 'done': done, 'balance': balance,
                                                    'available_for_editing': available_for_editing})
 
 
 @login_required(login_url='login')
-def complete_task(request, task_id):
+def complete_task(request, block_id, task_id):
+    try:
+        block = TaskBlock.objects.get(user=request.user, block_id=block_id)
+
+        block.tasks |= 1 << task_id
+
+        block.save()
+    except TaskBlock.DoesNotExist:
+        TaskBlock(user=request.user, block_id=block_id, tasks=1 << task_id, tasks_count=_tasks_per_block)
+
     try:
         done_tasks = TaskList.objects.get(user=request.user)
-
-        done_tasks.tasks |= 1 << task_id
 
         done_tasks.balance += 1
 
         done_tasks.save()
-
     except TaskList.DoesNotExist:
-        TaskList(user=request.user, tasks=1 << task_id).save()
+        TaskList(user=request.user, balance=1).save()
 
     return HttpResponseRedirect('/diary')
 
@@ -130,34 +137,46 @@ def complete_task(request, task_id):
 @login_required(login_url='login')
 def complete_block(request, block_id):
     try:
+        block = TaskBlock.objects.get(user=request.user, block_id=block_id)
+
+        tasks_done = sum(not block.tasks & 1 << i for i in range(block.tasks_count))
+
+        block.tasks = (1 << block.tasks_count) - 1
+
+        block.save()
+    except TaskBlock.DoesNotExist:
+        TaskBlock(user=request.user, block_id=block_id,
+                  tasks=(1 << _tasks_per_block) - 1, tasks_count=_tasks_per_block).save()
+        tasks_done = _tasks_per_block
+
+    try:
         done_tasks = TaskList.objects.get(user=request.user)
 
-        done_tasks.tasks |= 0b1111 << 4 * block_id
-
-        done_tasks.balance += 1
+        done_tasks.balance += tasks_done
 
         done_tasks.last_activity = timezone.now().date()
 
         done_tasks.save()
-
     except TaskList.DoesNotExist:
-        TaskList(user=request.user, tasks=0b1111 << 4 * block_id).save()
+        TaskList(user=request.user, balance=tasks_done).save()
 
     return HttpResponseRedirect('/diary')
 
 
 @login_required(login_url='login')
-def return_task(request, task_id):
+def return_task(request, block_id, task_id):
     try:
         done_tasks = TaskList.objects.get(user=request.user)
+        block = TaskBlock.objects.get(user=request.user, block_id=block_id)
 
-        done_tasks.tasks ^= 1 << task_id
+        block.tasks ^= 1 << task_id
 
         done_tasks.balance -= 1
         done_tasks.last_activity = '2000-04-20'
 
         done_tasks.save()
-    except TaskList.DoesNotExist:
+        block.save()
+    except (TaskList.DoesNotExist, TaskBlock.DoesNotExist):
         return HttpResponseBadRequest()
 
     return HttpResponseRedirect('/diary')
@@ -167,12 +186,18 @@ def return_task(request, task_id):
 def return_all_tasks(request):
     try:
         done_tasks = TaskList.objects.get(user=request.user)
+        blocks = TaskBlock.objects.filter(user=request.user)
 
-        done_tasks.tasks = 0
+        for block in blocks:
+            block.tasks = 0
+            block.save()
+
+        done_tasks.balance = 0
         
         done_tasks.last_activity = '2000-04-20'
 
         done_tasks.save()
-    except TaskList.DoesNotExist:
+    except (TaskList.DoesNotExist, TaskBlock.DoesNotExist):
         return HttpResponseBadRequest()
+
     return HttpResponseRedirect('/diary')
