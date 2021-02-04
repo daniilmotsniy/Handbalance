@@ -74,16 +74,14 @@
                                 <table class="steelBlueCols" border="1">
                                     <tr>
                                         <th>Ex. name</th>
-                                        <th>Ex. time</th>
-                                        <th>Times</th>
                                         <th>Block</th>
+                                        <th>Done</th>
                                     </tr>
                                     {% for task in done %}
                                         <tr>
                                             <td>{{ task.name }}</td>
-                                            <td>{{ task.duration }} sec</td>
-                                            <td>{{ task.repetitions }}</td>
                                             <td>{{ task.block }}</td>
+                                            <td><a class="nav-link js-scroll-trigger" href="/returnTask/{{ task.id }}">Return</a></td>
                                         </tr>
                                     {% endfor %}
                                 </table>

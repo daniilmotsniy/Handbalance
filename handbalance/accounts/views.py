@@ -154,6 +154,7 @@ def return_task(request, task_id):
         done_tasks.tasks ^= 1 << task_id
 
         done_tasks.balance -= 1
+        done_tasks.last_activity = '2000-04-20'
 
         done_tasks.save()
     except TaskList.DoesNotExist:
@@ -168,6 +169,8 @@ def return_all_tasks(request):
         done_tasks = TaskList.objects.get(user=request.user)
 
         done_tasks.tasks = 0
+        
+        done_tasks.last_activity = '2000-04-20'
 
         done_tasks.save()
     except TaskList.DoesNotExist:
