@@ -89,8 +89,10 @@ def diary_page(request):
 
     # information will be shown on all blocks
     _blocks = [(f'Block {i + 1}',
-                [(f'Ex {j + 10 * i}', str(j + 1 + 10 * i), str(2 * j + 2 + 10 * i)) for j in range(_tasks_per_block)]
-                ) for i in range(10)]
+                [(f'Ex {j + 5 * i}', str(j + 1 + 5 * i), str(2 * j + 2 + 5 * i)) for j in range(_tasks_per_block)]
+                ) for i in range(5)]
+
+    #_blocks = []
 
     try:
         task_list = TaskList.objects.get(user=request.user)
