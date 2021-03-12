@@ -10361,3 +10361,18 @@ video {
     height: 389px;
   }
 }
+
+#buy_btn {
+  margin-left: 42%;
+  background-color: #64a19d;
+}
+
+#buy_btn:hover {
+  margin-left: 42%;
+  background-color: #0f6674;
+}
+
+#buy_btn:active {
+  margin-left: 42%;
+  background-color: #0c5460;
+}
