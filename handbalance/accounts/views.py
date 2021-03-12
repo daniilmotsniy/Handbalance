@@ -60,11 +60,12 @@ def account_page(request):
     """ This func allows define which block will be shown by 'start training' btn """
     try:
         balance = TaskList.objects.get(user=request.user).balance
+        paid = TaskList.objects.get(user=request.user).paid
         link_to_block = 'block' + str(int(balance/5))
     except TaskList.DoesNotExist:
         balance = 0
 
-    return render(request, 'accounts/account.html', {'link_to_block': link_to_block})
+    return render(request, 'accounts/account.html', {'link_to_block': link_to_block, 'paid': paid})
 
 
 def leaders(request):
@@ -258,3 +259,15 @@ def return_all_tasks(request):
         return HttpResponseBadRequest()
 
     return HttpResponseRedirect('/diary')
+
+
+@login_required(login_url='login')
+def buy(request):
+    """ Payment process simulating """
+    try:
+        user = TaskList.objects.get(user=request.user)
+        user.paid = True
+        user.save()
+    except TaskList.DoesNotExist:
+        return HttpResponseBadRequest()
+    return redirect('/account')

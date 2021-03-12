@@ -8,6 +8,7 @@ urlpatterns = [
     path('account', views.account_page),
     path('diary', views.diary_page),
     path('leaders', views.leaders),
+    path('buy', views.buy),
     path('completeTask/<int:block_id>/<int:task_id>', views.complete_task),  # FIXME unused?
     path('completeBlock/<int:block_id>', views.complete_block),
     path('returnTask/<int:block_id>/<int:task_id>', views.return_task),  # FIXME unused?
