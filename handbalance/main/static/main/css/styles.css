@@ -50,17 +50,6 @@
 }
 /*  */
 
-
-iframe {
-    width: auto;
-}
-
-@media screen and (min-width: 1280px) {
-    iframe {
-        width: 720;
-    }
-}
-
 :root {
   --blue: #007bff;
   --indigo: #6610f2;

@@ -88,11 +88,19 @@ def diary_page(request):
     """ Main logic of 'training dairy' """
 
     # information will be shown on all blocks
-    _blocks = [(f'Block {i + 1}',
-                [(f'Ex {j + 5 * i}', str(j + 1 + 5 * i), str(2 * j + 2 + 5 * i)) for j in range(_tasks_per_block)]
-                ) for i in range(5)]
+    # _blocks = [(f'Block {i + 1}',
+    #             [(f'Ex {j + 5 * i}', str(j + 1 + 5 * i), str(2 * j + 2 + 5 * i)) for j in range(_tasks_per_block)]
+    #             ) for i in range(5)]
 
-    #_blocks = []
+    _blocks = [('Block 1', [('Warm up', '120', '1'), ('Floor', '60', '1'), ('Chair', '60', '2'), ('Wall stand', '30', '4')]),
+               ('Block 2', [('Ex 6', '6', '7'), ('Ex 66', '7', '9'), ('Ex 7', '8', '11'), ('Ex 8', '9', '13'),
+                                                                ('Ex 9', '10', '15')]),
+               ('Block 3', [('Ex 10', '11', '12'), ('Ex 11', '12', '14'), ('Ex 12', '13', '16'),
+                            ('Ex 13', '14', '18'), ('Ex 14', '15', '20')]),
+               ('Block 4', [('Ex 15', '16', '17'), ('Ex 16', '17', '19'), ('Ex 17', '18', '21'), ('Ex 18', '19', '23'),
+                            ('Ex 19', '20', '25')]),
+               ('Block 5', [('Ex 20', '21', '22'), ('Ex 21', '22', '24'), ('Ex 22', '23', '26'), ('Ex 23', '24', '28'),
+                                                                  ('Ex 24', '25', '30')])]
 
     try:
         task_list = TaskList.objects.get(user=request.user)

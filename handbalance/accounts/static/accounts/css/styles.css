@@ -10349,3 +10349,15 @@ body {
 .footer {
   padding: 5rem 0;
 }
+
+video {
+  width: 320px;
+  height: 250px;
+}
+
+@media screen and (min-width: 720px) {
+  video {
+    width: 690px;
+    height: 389px;
+  }
+}

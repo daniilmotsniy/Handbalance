@@ -120,16 +120,3 @@ input:focus {
 .navbar {
   width: auto;
 }
-
-/* IFrame */
-
-
-iframe {
-    width: auto;
-}
-
-@media screen and (min-width: 1280px) {
-    iframe {
-        width: 720;
-    }
-}
