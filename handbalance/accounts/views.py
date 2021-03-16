@@ -58,6 +58,8 @@ def logout_user(request):
 @login_required(login_url='login')
 def account_page(request):
     """ This func allows define which block will be shown by 'start training' btn """
+    link_to_block = 0
+    paid = False
     try:
         balance = TaskList.objects.get(user=request.user).balance
         paid = TaskList.objects.get(user=request.user).paid

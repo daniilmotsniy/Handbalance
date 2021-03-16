@@ -169,6 +169,10 @@
             </div>
         </section>
 
+        {% if not paid %}
+            <a type="button" id="buy_btn" class="btn btn-info" href="/buy">Buy other lessons</a>
+        {% endif %}
+
         {% if paid %}
         <!-- Lesson 2 -->
         <section class="about-section text-center" id="block1">

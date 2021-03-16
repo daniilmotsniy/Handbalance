@@ -77,12 +77,14 @@ WSGI_APPLICATION = 'handbalance.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'Handbalance',
-        'USER': 'postgres',
-        'PASSWORD': 'root',
-        'HOST': 'localhost',
-        'POST': '',
+        'ENGINE': 'djongo',
+        "CLIENT": {
+            "name": 'handbalance',
+            "host": 'mongodb+srv://admin:2443@cluster0.y8ry6.mongodb.net/handbalance?retryWrites=true&w=majority',
+            "username": 'admin',
+            "password": '2443',
+            "authMechanism": "SCRAM-SHA-1",
+        },
     }
 }
 

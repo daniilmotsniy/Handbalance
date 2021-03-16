@@ -8,7 +8,6 @@ venv/
 
 migrations/
 
-*.sqlite3
 *.db
 *.pyc
 */__init__.py
