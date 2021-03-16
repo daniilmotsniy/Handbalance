@@ -15,3 +15,4 @@ migrations/
 manage.py
 
 *.mp4
+*.png
