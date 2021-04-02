@@ -22,6 +22,10 @@ Register
                                                  {{ form.username }}
                                              </div>
                                              <div class="form-group">
+                                                 <h6>Email</h6>
+                                                 {{ form.email }}
+                                             </div>
+                                             <div class="form-group">
                                                  <h6>Password</h6>
                                                  {{ form.password1 }}
                                              </div>
@@ -35,6 +39,7 @@ Register
                                          </form>
                                          <p class="loginhere">
                                                 <ol>{{ form.username.errors }}</ol>
+                                                <ol>{{ form.email.errors }}</ol>
                                                 <ol>{{ form.password1.errors }}</ol>
                                                 <ol>{{ form.password2.errors }}</ol>
                                          </p>

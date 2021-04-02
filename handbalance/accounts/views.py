@@ -107,20 +107,23 @@ def diary_page(request):
 
     try:
         task_list = TaskList.objects.get(user=request.user)
-
         balance = task_list.balance
-        available_for_editing = task_list.last_activity != timezone.now().date()
     except TaskList.DoesNotExist:
         balance = 0
-        available_for_editing = False
 
     try:
         done_tasks = {t.block_id: [bool(t.tasks & 1 << i) for i in range(t.tasks_count)]
                       for t in sorted(TaskBlock.objects.filter(user=request.user), key=lambda b: b.block_id)}
-
         done_tasks = {k: list(v) for k, v in done_tasks.items()}
     except TaskBlock.DoesNotExist:
         done_tasks = {}
+
+    # last login logic
+    try:
+        last_login_date = request.user.last_login.date()
+        print(last_login_date)
+    except TaskBlock.DoesNotExist:
+        last_login = ''
 
     blocks = []
     done = []
@@ -140,8 +143,7 @@ def diary_page(request):
         if block_done:
             done.append(block_done)
 
-    return render(request, 'accounts/diary.html', {'blocks': blocks, 'done': done, 'balance': balance,
-                                                   'available_for_editing': available_for_editing})
+    return render(request, 'accounts/diary.html', {'blocks': blocks, 'done': done, 'balance': balance,})
 
 
 @login_required(login_url='login')
@@ -189,8 +191,6 @@ def complete_block(request, block_id):
 
         done_tasks.balance += tasks_done
 
-        done_tasks.last_activity = timezone.now().date()
-
         done_tasks.save()
     except TaskList.DoesNotExist:
         TaskList(user=request.user, balance=tasks_done).save()
@@ -208,7 +208,6 @@ def return_task(request, block_id, task_id):
         block.tasks ^= 1 << task_id
 
         done_tasks.balance -= 1
-        done_tasks.last_activity = '2000-04-20'
 
         done_tasks.save()
         block.save()
@@ -231,8 +230,6 @@ def return_block(request, block_id):
 
         done_tasks.balance -= tasks_returned
 
-        done_tasks.last_activity = '2000-04-20'
-
         done_tasks.save()
         block.save()
     except (TaskList.DoesNotExist, TaskBlock.DoesNotExist):
@@ -253,8 +250,6 @@ def return_all_tasks(request):
             block.save()
 
         done_tasks.balance = 0
-        
-        done_tasks.last_activity = '2000-04-20'
 
         done_tasks.save()
     except (TaskList.DoesNotExist, TaskBlock.DoesNotExist):

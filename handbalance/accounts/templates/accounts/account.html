@@ -41,7 +41,8 @@
         <header class="masthead">
             <div class="container d-flex h-100 align-items-center">
                 <div class="mx-auto text-center">
-                    <h3 class="text-white-50 mx-auto mt-2 mb-5">Welcome, {{ request.user }} hope you will enjoy.</h3>
+                    <h3 class="text-white-50 mx-auto mt-2 mb-5">Welcome, {{ request.user }}!</h3>
+                    <h6 class="text-white-50 mx-auto mt-2 mb-5">Don`t forget to do warming up and mark done blocks in your training diary as well.</h6>
                     <a class="btn btn-primary js-scroll-trigger" href="#{{link_to_block}}">Start training</a>
                 </div>
             </div>
@@ -170,7 +171,9 @@
         </section>
 
         {% if not paid %}
-            <a type="button" id="buy_btn" class="btn btn-info" href="/buy">Buy other lessons</a>
+            <div id="buy_place">
+                <a type="button" id="buy_btn" class="btn btn-info" href="/buy">Buy other lessons</a>
+            </div>
         {% endif %}
 
         {% if paid %}
@@ -184,7 +187,9 @@
                             The first lesson will dedicated to basic exercises, which preparing your body for learning handstand. Lets go!
                         </p>
                         <div>
-{#                            <iframe width="1280" height="720" src="{%static 'accounts/assets/videos/lesson1.mp4' %}"></iframe>#}
+                            <video width="690" height="389" controls >
+                                <source src="{%static 'accounts/assets/videos/lesson1.mp4' %}" type="video/mp4">
+                            </video>
                         </div>
                         <br>
                     </div>
@@ -324,7 +329,7 @@
             </div>
         </section>
             <!-- Lesson 3 -->
-            <section class="about-section text-center" id="block0">
+            <section class="about-section text-center" id="block2">
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-8 mx-auto">
@@ -446,7 +451,7 @@
                 </div>
             </section>
             <!-- Lesson 4 -->
-            <section class="about-section text-center" id="block1">
+            <section class="about-section text-center" id="block3">
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-8 mx-auto">
@@ -455,7 +460,9 @@
                                 The first lesson will dedicated to basic exercises, which preparing your body for learning handstand. Lets go!
                             </p>
                             <div>
-                                {#                            <iframe width="1280" height="720" src="{%static 'accounts/assets/videos/lesson1.mp4' %}"></iframe>#}
+                                <video width="690" height="389" controls >
+                                    <source src="{%static 'accounts/assets/videos/lesson1.mp4' %}" type="video/mp4">
+                                </video>
                             </div>
                             <br>
                         </div>
@@ -595,7 +602,7 @@
                 </div>
             </section>
             <!-- Lesson 5 -->
-            <section class="about-section text-center" id="block1">
+            <section class="about-section text-center" id="block4">
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-8 mx-auto">
@@ -604,7 +611,9 @@
                                 The first lesson will dedicated to basic exercises, which preparing your body for learning handstand. Lets go!
                             </p>
                             <div>
-                                {#                            <iframe width="1280" height="720" src="{%static 'accounts/assets/videos/lesson1.mp4' %}"></iframe>#}
+                                <video width="690" height="389" controls >
+                                    <source src="{%static 'accounts/assets/videos/lesson1.mp4' %}" type="video/mp4">
+                                </video>
                             </div>
                             <br>
                         </div>

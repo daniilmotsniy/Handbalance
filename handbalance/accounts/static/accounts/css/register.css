@@ -17,7 +17,8 @@ h2 {
   padding: 0;
   color: #222;
   text-align: center;
-  margin-bottom: 40px; }
+  margin-bottom: 40px;
+}
 
 .clear {
   clear: both;
@@ -121,3 +122,37 @@ input:focus {
   width: auto;
 }
 
+#buy_btn {
+  margin-left: 42%;
+  background-color: #64a19d;
+}
+
+#buy_btn:hover {
+  margin-left: 42%;
+  background-color: #0f6674;
+}
+
+#buy_btn:active {
+  margin-left: 42%;
+  background-color: #0c5460;
+}
+
+#buy_place {
+  background-color: black;
+}
+
+video {
+  width: 320px;
+  height: 250px;
+}
+
+@media screen and (min-width: 720px) {
+  video {
+    width: 690px;
+    height: 389px;
+  }
+}
+
+.footer {
+  padding: 5rem 0;
+}

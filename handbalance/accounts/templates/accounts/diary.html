@@ -62,9 +62,7 @@
                                     {% endfor %}
                                 </table>
                                 <br>
-                                {% if available_for_editing %}
                                 <a class="btn btn-primary js-scroll-trigger" href="/completeBlock/{{ block.id }}">Finish {{ block.name }}</a>
-                                {% endif %}
                             </div>
                         {% endfor %}
                         {% if done %}
