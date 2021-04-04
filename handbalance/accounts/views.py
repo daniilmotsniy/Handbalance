@@ -2,10 +2,10 @@ import operator
 
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import HttpResponseRedirect, HttpResponseBadRequest
+from .forms import CreateUserForm
 from .models import TaskList, TaskBlock
 from django.utils import timezone
 
@@ -34,10 +34,10 @@ def login_page(request):
 
 def register_page(request):
     """ Register logic """
-    form = UserCreationForm()
+    form = CreateUserForm()
 
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = CreateUserForm(request.POST)
         if form.is_valid():
             form.save()
             user = form.cleaned_data.get('username')
@@ -91,9 +91,6 @@ def diary_page(request):
     """ Main logic of 'training dairy' """
 
     # information will be shown on all blocks
-    # _blocks = [(f'Block {i + 1}',
-    #             [(f'Ex {j + 5 * i}', str(j + 1 + 5 * i), str(2 * j + 2 + 5 * i)) for j in range(_tasks_per_block)]
-    #             ) for i in range(5)]
 
     _blocks = [('Block 1', [('Warm up', '120', '1'), ('Floor', '60', '1'), ('Chair', '60', '2'), ('Wall stand', '30', '4')]),
                ('Block 2', [('Ex 6', '6', '7'), ('Ex 66', '7', '9'), ('Ex 7', '8', '11'), ('Ex 8', '9', '13'),
