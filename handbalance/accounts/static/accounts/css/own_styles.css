@@ -156,3 +156,14 @@ video {
 .footer {
   padding: 5rem 0;
 }
+
+/* this used for the links for the lessons */
+
+.lesson {
+  font-size: 16pt;
+  color: white;
+}
+
+.lesson:hover {
+  color: gainsboro;
+}

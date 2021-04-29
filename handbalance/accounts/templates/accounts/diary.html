@@ -17,7 +17,7 @@
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="{%static 'accounts/css/styles.css' %}" rel="stylesheet" />
-        <link href="{%static 'accounts/css/register.css' %}" rel="stylesheet" />
+        <link href="{%static 'accounts/css/own_styles.css' %}" rel="stylesheet" />
         <link href="{%static 'accounts/css/table.css' %}" rel="stylesheet" />
     </head>
     <body id="page-top">
@@ -50,13 +50,13 @@
                                 <table class="steelBlueCols" border="1">
                                     <tr>
                                         <th>Ex. name</th>
-                                        <th>Ex. time</th>
+                                        <th>Ex. time (s)</th>
                                         <th>Times</th>
                                     </tr>
                                     {% for task in block.tasks %}
                                     <tr>
                                         <td>{{ task.name }}</td>
-                                        <td>{{ task.duration }} sec</td>
+                                        <td>{{ task.duration }}</td>
                                         <td>{{ task.repetitions }}</td>
                                     </tr>
                                     {% endfor %}

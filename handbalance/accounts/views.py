@@ -63,7 +63,7 @@ def account_page(request):
     try:
         balance = TaskList.objects.get(user=request.user).balance
         paid = TaskList.objects.get(user=request.user).paid
-        link_to_block = 'block' + str(int(balance/5))
+        link_to_block = int(balance/5)
     except TaskList.DoesNotExist:
         balance = 0
 
@@ -83,6 +83,47 @@ def leaders(request):
     return render(request, 'accounts/leaders.html', {'users': users})
 
 
+def lesson1(request):
+    """ Lesson 1 page """
+    return render(request, 'accounts/lessons/lesson1.html')
+
+
+def lesson2(request):
+    """ Lesson 2 page """
+    try:
+        paid = TaskList.objects.get(user=request.user).paid
+    except TaskList.DoesNotExist:
+        paid = False
+    return render(request, 'accounts/lessons/lesson2.html', {'paid': paid})
+
+
+def lesson3(request):
+    """ Lesson 3 page """
+    try:
+        paid = TaskList.objects.get(user=request.user).paid
+    except TaskList.DoesNotExist:
+        paid = False
+    return render(request, 'accounts/lessons/lesson3.html', {'paid': paid})
+
+
+def lesson4(request):
+    """ Lesson 4 page """
+    try:
+        paid = TaskList.objects.get(user=request.user).paid
+    except TaskList.DoesNotExist:
+        paid = False
+    return render(request, 'accounts/lessons/lesson4.html', {'paid': paid})
+
+
+def lesson5(request):
+    """ Lesson 5 page """
+    try:
+        paid = TaskList.objects.get(user=request.user).paid
+    except TaskList.DoesNotExist:
+        paid = False
+    return render(request, 'accounts/lessons/lesson5.html', {'paid': paid})
+
+
 # Diary page
 
 
@@ -93,14 +134,13 @@ def diary_page(request):
     # information will be shown on all blocks
 
     _blocks = [('Block 1', [('Warm up', '120', '1'), ('Floor', '60', '1'), ('Chair', '60', '2'), ('Wall stand', '30', '4')]),
-               ('Block 2', [('Ex 6', '6', '7'), ('Ex 66', '7', '9'), ('Ex 7', '8', '11'), ('Ex 8', '9', '13'),
+               ('Block 2', [('Warm up', '120', '1'), ('Ex 66', '7', '9'), ('Ex 7', '8', '11'), ('Ex 8', '9', '13'),
                                                                 ('Ex 9', '10', '15')]),
-               ('Block 3', [('Ex 10', '11', '12'), ('Ex 11', '12', '14'), ('Ex 12', '13', '16'),
+               ('Block 3', [('Warm up', '120', '1'), ('Ex 11', '12', '14'), ('Ex 12', '13', '16'),
                             ('Ex 13', '14', '18'), ('Ex 14', '15', '20')]),
-               ('Block 4', [('Ex 15', '16', '17'), ('Ex 16', '17', '19'), ('Ex 17', '18', '21'), ('Ex 18', '19', '23'),
+               ('Block 4', [('Warm up', '120', '1'), ('Ex 16', '17', '19'), ('Ex 17', '18', '21'), ('Ex 18', '19', '23'),
                             ('Ex 19', '20', '25')]),
-               ('Block 5', [('Ex 20', '21', '22'), ('Ex 21', '22', '24'), ('Ex 22', '23', '26'), ('Ex 23', '24', '28'),
-                                                                  ('Ex 24', '25', '30')])]
+               ('Block 5', [('Warm up', '120', '1'),('Fold', '20', '2'), ('Corner legs apart', '10', '2'), ('Corner', 'Maximum', '3')])]
 
     try:
         task_list = TaskList.objects.get(user=request.user)

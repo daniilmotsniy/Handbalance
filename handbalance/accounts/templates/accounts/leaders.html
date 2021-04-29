@@ -1,4 +1,5 @@
 {% extends 'accounts/base.html' %}
+{% load static %}
 
 {% block title %}
 About
@@ -12,6 +13,8 @@ About
                     <div class="row">
                             <div class="col-lg-8 mx-auto block1">
                                 <h2 class="text-white mb-4">Leaders</h2>
+                                <h6 class="text-white-50 mx-auto mt-2 mb-5">We have quiz now, if you have all lessons
+                                    done and show good result your video will be on this page!</h6>
                                 <table class="steelBlueCols" border="1">
                                     <tr>
                                         <th>Name</th>
@@ -24,7 +27,15 @@ About
                                     </tr>
                                     {% endfor %}
                                 </table>
+                                <br><br>
+                                <h6 class="text-white-50 mx-auto mt-2 mb-5">This is our best performer at the moment.</h6>
+                                <div>
+                                    <video width="690" height="389" controls >
+                                        <source src="{%static 'accounts/assets/videos/warm_up.mp4' %}" type="video/mp4">
+                                    </video>
+                                </div>
                                 <br>
+                                <h6 class="text-white-50 mx-auto mt-2 mb-5">So don't lose the time, handbalance!</h6>
                             </div>
                     </div>
                 </div><br>
