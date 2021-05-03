@@ -48,14 +48,14 @@ def register_page(request):
     return render(request, 'accounts/register.html', context)
 
 
-@login_required(login_url='login')
+@login_required(login_url='/login')
 def logout_user(request):
     """ Logout logic """
     logout(request)
     return redirect('/login')
 
 
-@login_required(login_url='login')
+@login_required(login_url='/login')
 def account_page(request):
     """ This func allows define which block will be shown by 'start training' btn """
     link_to_block = 0
@@ -63,7 +63,9 @@ def account_page(request):
     try:
         balance = TaskList.objects.get(user=request.user).balance
         paid = TaskList.objects.get(user=request.user).paid
-        link_to_block = int(balance/5)
+        link_to_block = int(balance) + 1
+        if link_to_block > 5:
+            link_to_block = 5
     except TaskList.DoesNotExist:
         balance = 0
 
@@ -83,11 +85,13 @@ def leaders(request):
     return render(request, 'accounts/leaders.html', {'users': users})
 
 
+@login_required(login_url='/login')
 def lesson1(request):
     """ Lesson 1 page """
     return render(request, 'accounts/lessons/lesson1.html')
 
 
+@login_required(login_url='/login')
 def lesson2(request):
     """ Lesson 2 page """
     try:
@@ -97,6 +101,7 @@ def lesson2(request):
     return render(request, 'accounts/lessons/lesson2.html', {'paid': paid})
 
 
+@login_required(login_url='/login')
 def lesson3(request):
     """ Lesson 3 page """
     try:
@@ -106,6 +111,7 @@ def lesson3(request):
     return render(request, 'accounts/lessons/lesson3.html', {'paid': paid})
 
 
+@login_required(login_url='/login')
 def lesson4(request):
     """ Lesson 4 page """
     try:
@@ -115,6 +121,7 @@ def lesson4(request):
     return render(request, 'accounts/lessons/lesson4.html', {'paid': paid})
 
 
+@login_required(login_url='/login')
 def lesson5(request):
     """ Lesson 5 page """
     try:
@@ -127,7 +134,7 @@ def lesson5(request):
 # Diary page
 
 
-@login_required(login_url='login')
+@login_required(login_url='/login')
 def diary_page(request):
     """ Main logic of 'training dairy' """
 
@@ -183,7 +190,7 @@ def diary_page(request):
     return render(request, 'accounts/diary.html', {'blocks': blocks, 'done': done, 'balance': balance,})
 
 
-@login_required(login_url='login')
+@login_required(login_url='/login')
 def complete_task(request, block_id, task_id):
     """ Moves task to the 'done tasks' """
     try:
@@ -207,7 +214,7 @@ def complete_task(request, block_id, task_id):
     return HttpResponseRedirect('/diary')
 
 
-@login_required(login_url='login')
+@login_required(login_url='/login')
 def complete_block(request, block_id):
     """ Moves block to the 'done tasks' """
     try:
@@ -226,7 +233,7 @@ def complete_block(request, block_id):
     try:
         done_tasks = TaskList.objects.get(user=request.user)
 
-        done_tasks.balance += tasks_done
+        done_tasks.balance += 1
 
         done_tasks.save()
     except TaskList.DoesNotExist:
@@ -235,7 +242,7 @@ def complete_block(request, block_id):
     return HttpResponseRedirect('/diary')
 
 
-@login_required(login_url='login')
+@login_required(login_url='/login')
 def return_task(request, block_id, task_id):
     """ Moves task back to the block """
     try:
@@ -254,7 +261,7 @@ def return_task(request, block_id, task_id):
     return HttpResponseRedirect('/diary')
 
 
-@login_required(login_url='login')
+@login_required(login_url='/login')
 def return_block(request, block_id):
     """ Moves block back """
     try:
@@ -265,7 +272,7 @@ def return_block(request, block_id):
 
         block.tasks = 0
 
-        done_tasks.balance -= tasks_returned
+        done_tasks.balance -= 1
 
         done_tasks.save()
         block.save()
@@ -275,7 +282,7 @@ def return_block(request, block_id):
     return HttpResponseRedirect('/diary')
 
 
-@login_required(login_url='login')
+@login_required(login_url='/login')
 def return_all_tasks(request):
     """ Moves all blocks back """
     try:
@@ -295,7 +302,7 @@ def return_all_tasks(request):
     return HttpResponseRedirect('/diary')
 
 
-@login_required(login_url='login')
+@login_required(login_url='/login')
 def buy(request):
     """ Payment process simulating """
     try:

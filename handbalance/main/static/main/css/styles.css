@@ -40,15 +40,15 @@
   text-align:center;
   color:#fff;
   font-size: 70px;
+  font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
   margin-top:10%;
 }
 
 @media (max-width: 767px) {
-  .fullscreen-bg__video {
+  .fullscreen-bg {
     display: none;
   }
 }
-/*  */
 
 :root {
   --blue: #007bff;

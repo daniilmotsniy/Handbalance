@@ -83,6 +83,23 @@ input:focus {
     background-clip: content-box, border-box;
 }
 
+/* adaptive reg + login */
+
+@media screen and (max-width: 375px) {
+  .form-group input {
+    width: 145px;
+  }
+}
+
+@media screen and (max-width: 300px) {
+  .form-group input {
+    width: 70px;
+    font-size: 12px;
+  }
+  #submit {
+    font-size: 8px;
+  }
+}
 
 .form-submit {
   width: auto;
@@ -102,38 +119,39 @@ input:focus {
   background-image: -ms-linear-gradient(to left, #74ebd5, #9face6);
   background-image: -o-linear-gradient(to left, #74ebd5, #9face6);
   background-image: -webkit-linear-gradient(to left, #74ebd5, #9face6);
-  background-image: linear-gradient(to left, #74ebd5, #9face6); }
+  background-image: linear-gradient(to left, #74ebd5, #9face6);
+}
 
 .loginhere {
   color: #555;
   font-weight: 500;
   text-align: center;
   margin-top: 91px;
-  margin-bottom: 5px; }
+  margin-bottom: 5px;
+}
 
 .loginhere-link {
   font-weight: 700;
-  color: #222; }
+  color: #222;
+}
 
-/* Navbar */
-
+/* navbar */
 
 .navbar {
   width: auto;
 }
 
+/* buy button */
+
 #buy_btn {
-  margin-left: 42%;
   background-color: #64a19d;
 }
 
 #buy_btn:hover {
-  margin-left: 42%;
   background-color: #0f6674;
 }
 
 #buy_btn:active {
-  margin-left: 42%;
   background-color: #0c5460;
 }
 
@@ -167,3 +185,5 @@ video {
 .lesson:hover {
   color: gainsboro;
 }
+
+/*  */

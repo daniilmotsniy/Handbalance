@@ -31,7 +31,10 @@
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/leaders">Leaders</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/diary">Training diary</a></li>
+                        {% if paid %}
+                            <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/diary">Training diary</a>
+                            </li>
+                        {% endif %}
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/logout">Logout</a></li>
                     </ul>
                 </div>
@@ -42,49 +45,73 @@
             <div class="container d-flex h-100 align-items-center">
                 <div class="mx-auto text-center">
                     <h3 class="text-white-50 mx-auto mt-2 mb-5">Welcome, {{ request.user }}!</h3>
-                    <h6 class="text-white-50 mx-auto mt-2 mb-5">Don't forget to do warming up and mark done blocks in your training diary as well.</h6>
-                    <a class="btn btn-primary js-scroll-trigger" href="#training_video">Let's go!</a>
+                    <h6 class="text-white-50 mx-auto mt-2 mb-5">Don't forget to do warming up and mark done blocks in
+                        your training diary as well.</h6>
+                    <a class="btn btn-primary js-scroll-trigger" href="#start">Let's go!</a>
                 </div>
             </div>
         </header>
-        {% if not paid %}
-            <div id="buy_place">
-                <a type="button" id="buy_btn" class="btn btn-info" href="/buy">Buy other lessons</a>
-            </div>
-        {% endif %}
-        {% if paid %}
-            <section class="about-section text-center" id="block4">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-8 mx-auto">
-                            <h5 id="training_video" class="text-white-50 mx-auto mt-2 mb-5">This is warm-up please do it before every lesson.</h5>
-                            <br>
-                            <div>
-                                <video width="690" height="389" controls >
-                                    <source src="{%static 'accounts/assets/videos/warm_up.mp4' %}" type="video/mp4">
-                                </video>
+        <div id="start">
+            {% if not paid %}
+                <section class="about-section text-center">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-8 mx-auto">
+                                <div>
+                                    <video width="690" height="389" controls >
+                                        <source src="{%static 'accounts/assets/videos/intro.mp4' %}" type="video/mp4">
+                                    </video>
+                                </div>
+                                <br><br>
+                                <a type="button" id="buy_btn" class="btn btn-info" href="/buy">Buy other lessons</a>
                             </div>
-                            <br>
-                            <h6 class="text-white-50 mx-auto mt-2 mb-5">There are links for the lessons. Please mark lessons you finished it will help to continue by clicking
-                            on the button.</h6>
-                            <br>
-                            <a class="btn btn-primary js-scroll-trigger" href="lesson{{link_to_block}}">Start training</a>
-                            <br><br><br>
-                            <ul class="navbar-nav ml-auto">
-                                <li class="nav-item"><a class="nav-link lesson" href="/lesson1">Lesson 1. Basics.</a></li>
-                                <li class="nav-item"><a class="nav-link lesson" href="/lesson2">Lesson 2. Entering to handstand.</a></li>
-                                <li class="nav-item"><a class="nav-link lesson" href="/lesson3">Lesson 3. Handstand without wall.</a></li>
-                                <li class="nav-item"><a class="nav-link lesson" href="/lesson4">Lesson 4. Upgrade your handstand.</a></li>
-                                <li class="nav-item"><a class="nav-link lesson" href="/lesson5">Lesson 5. Angle.</a></li>
-                            </ul>
-                            <br><br>
                         </div>
                     </div>
-                </div>
-            </section>
-        {% endif %}
+                    <br><br>
+                </section>
+            {% endif %}
+            {% if paid %}
+                <section class="about-section text-center" id="block4">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-8 mx-auto">
+                                <h5 id="training_video" class="text-white-50 mx-auto mt-2 mb-5">This is warm-up please
+                                    do it before every lesson.</h5>
+                                <br>
+                                <div>
+                                    <video width="690" height="389" controls >
+                                        <source src="{%static 'accounts/assets/videos/warm_up.mp4' %}" type="video/mp4">
+                                    </video>
+                                </div>
+                                <br>
+                                <h6 class="text-white-50 mx-auto mt-2 mb-5">There are links for the lessons. Please
+                                    mark lessons you finished it will help to continue by clicking
+                                    on the button.</h6>
+                                <br>
+                                <a class="btn btn-primary js-scroll-trigger" href="lesson{{link_to_block}}">Start training</a>
+                                <br><br><br>
+                                <ul class="navbar-nav ml-auto">
+                                    <li class="nav-item"><a class="nav-link lesson" href="/lesson1">
+                                        Lesson 1. Basics.</a></li>
+                                    <li class="nav-item"><a class="nav-link lesson" href="/lesson2">
+                                        Lesson 2. Entering to handstand.</a></li>
+                                    <li class="nav-item"><a class="nav-link lesson" href="/lesson3">
+                                        Lesson 3. Handstand without wall.</a></li>
+                                    <li class="nav-item"><a class="nav-link lesson" href="/lesson4">
+                                        Lesson 4. Upgrade your handstand.</a></li>
+                                    <li class="nav-item"><a class="nav-link lesson" href="/lesson5">
+                                        Lesson 5. Angle.</a></li>
+                                </ul>
+                                <br><br>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            {% endif %}
+        </div>
         <!-- Footer-->
-        <footer class="footer bg-black small text-center text-white-50"><div class="container">Copyright © Motsachevky 2021</div></footer>
+        <footer class="footer bg-black small text-center text-white-50"><div class="container">
+            Copyright © Motsachevky 2021</div></footer>
         <!-- Bootstrap core JS-->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
