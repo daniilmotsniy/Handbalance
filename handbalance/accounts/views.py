@@ -88,7 +88,11 @@ def leaders(request):
 @login_required(login_url='/login')
 def lesson1(request):
     """ Lesson 1 page """
-    return render(request, 'accounts/lessons/lesson1.html')
+    try:
+        paid = TaskList.objects.get(user=request.user).paid
+    except TaskList.DoesNotExist:
+        paid = False
+    return render(request, 'accounts/lessons/lesson1.html', {'paid': paid})
 
 
 @login_required(login_url='/login')

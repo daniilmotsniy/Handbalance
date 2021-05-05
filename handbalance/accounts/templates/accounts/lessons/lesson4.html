@@ -39,14 +39,22 @@
         </nav>
 
         {% if not paid %}
-            <div id="buy_place">
-                <a type="button" id="buy_btn" class="btn btn-info" href="/buy">Buy other lessons</a>
-            </div>
+            <section class="about-section text-center" id="block4">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8 mx-auto">
+                            <a type="button" id="buy_btn" class="btn btn-info" href="/buy">Buy lessons</a>
+                        </div>
+
+                    </div>
+                </div>
+                <br><br><br>
+            </section>
         {% endif %}
 
         {% if paid %}
             <!-- Lesson 4 -->
-            <section class="about-section text-center" id="block3">
+            <section class="about-section text-center" id="block4">
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-8 mx-auto">
