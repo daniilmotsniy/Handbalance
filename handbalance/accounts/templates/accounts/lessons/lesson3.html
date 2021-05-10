@@ -60,7 +60,8 @@
                         <div class="col-lg-8 mx-auto">
                             <h2 class="text-white mb-4">Lesson 3</h2>
                             <p class="text-white-50">
-                                The first lesson will dedicated to basic exercises, which preparing your body for learning handstand. Lets go!
+                                Before you start learning handstand without help, first you need to learn
+                                how to fall right.
                             </p>
                             <div>
                                 <video width="690" height="389" controls >
@@ -113,8 +114,8 @@
                                             version.
                                             Just bend over-down and wave your leg and then also bring the other leg into
                                             a straight handstand. Try both and pick the easiest one for you.
-                                            After you have entered the handstand some of the most popular  mistakes is
-                                            the sinking of the shoulders, and the relaxation of the abs as shown in
+                                            After you have entered the handstand, some of the most popular mistakes are
+                                            the sinking of the shoulders and the relaxation of the abs as shown in
                                             the video.
                                         </p>
                                         <hr class="d-none d-lg-block mb-0 ml-0" />
@@ -131,11 +132,14 @@
                         <br>
                         <p class="mb-0 text-white-50">
                             Be sure to film yourself to see mistakes. I would also advise you to try as many times
-                            as possible. The more time you spend, the better you will get.
+                            as possible. The more time you spend, the better result you will get.
                             To fix the mistakes that you have, return to the previous lessons, and fix these
                             shortcomings near the wall.
                         </p>
                     </div>
+                    {% if balance == 2 %}
+                        <a class="btn btn-primary js-scroll-trigger" href="/completeBlock/2">Finish block 3</a>
+                    {% endif %}
                 </div>
             </section>
         {% endif %}

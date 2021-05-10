@@ -7,7 +7,6 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect, HttpResponseBadRequest
 from .forms import CreateUserForm
 from .models import TaskList, TaskBlock
-from django.utils import timezone
 
 
 # count of tasks in one block
@@ -89,50 +88,65 @@ def leaders(request):
 def lesson1(request):
     """ Lesson 1 page """
     try:
-        paid = TaskList.objects.get(user=request.user).paid
+        task_list = TaskList.objects.get(user=request.user)
+        paid = task_list.paid
+        balance = task_list.balance
     except TaskList.DoesNotExist:
         paid = False
-    return render(request, 'accounts/lessons/lesson1.html', {'paid': paid})
+        balance = 0
+    return render(request, 'accounts/lessons/lesson1.html', {'paid': paid, 'balance': balance})
 
 
 @login_required(login_url='/login')
 def lesson2(request):
     """ Lesson 2 page """
     try:
-        paid = TaskList.objects.get(user=request.user).paid
+        task_list = TaskList.objects.get(user=request.user)
+        paid = task_list.paid
+        balance = task_list.balance
     except TaskList.DoesNotExist:
         paid = False
-    return render(request, 'accounts/lessons/lesson2.html', {'paid': paid})
+        balance = 0
+    return render(request, 'accounts/lessons/lesson2.html', {'paid': paid, 'balance': balance})
 
 
 @login_required(login_url='/login')
 def lesson3(request):
     """ Lesson 3 page """
     try:
-        paid = TaskList.objects.get(user=request.user).paid
+        task_list = TaskList.objects.get(user=request.user)
+        paid = task_list.paid
+        balance = task_list.balance
     except TaskList.DoesNotExist:
         paid = False
-    return render(request, 'accounts/lessons/lesson3.html', {'paid': paid})
+        balance = 0
+    return render(request, 'accounts/lessons/lesson3.html', {'paid': paid, 'balance': balance})
 
 
 @login_required(login_url='/login')
 def lesson4(request):
     """ Lesson 4 page """
     try:
-        paid = TaskList.objects.get(user=request.user).paid
+        task_list = TaskList.objects.get(user=request.user)
+        paid = task_list.paid
+        balance = task_list.balance
     except TaskList.DoesNotExist:
         paid = False
-    return render(request, 'accounts/lessons/lesson4.html', {'paid': paid})
+        balance = 0
+    return render(request, 'accounts/lessons/lesson4.html', {'paid': paid, 'balance': balance})
 
 
 @login_required(login_url='/login')
 def lesson5(request):
     """ Lesson 5 page """
     try:
-        paid = TaskList.objects.get(user=request.user).paid
+        task_list = TaskList.objects.get(user=request.user)
+        paid = task_list.paid
+        balance = task_list.balance
     except TaskList.DoesNotExist:
         paid = False
-    return render(request, 'accounts/lessons/lesson5.html', {'paid': paid})
+        balance = 0
+    return render(request, 'accounts/lessons/lesson5.html', {'paid': paid, 'balance': balance})
 
 
 # Diary page
@@ -157,21 +171,14 @@ def diary_page(request):
         task_list = TaskList.objects.get(user=request.user)
         balance = task_list.balance
     except TaskList.DoesNotExist:
+        task_list = {}
         balance = 0
-
     try:
         done_tasks = {t.block_id: [bool(t.tasks & 1 << i) for i in range(t.tasks_count)]
                       for t in sorted(TaskBlock.objects.filter(user=request.user), key=lambda b: b.block_id)}
         done_tasks = {k: list(v) for k, v in done_tasks.items()}
     except TaskBlock.DoesNotExist:
         done_tasks = {}
-
-    # last login logic
-    try:
-        last_login_date = request.user.last_login.date()
-        print(last_login_date)
-    except TaskBlock.DoesNotExist:
-        last_login = ''
 
     blocks = []
     done = []
@@ -191,7 +198,8 @@ def diary_page(request):
         if block_done:
             done.append(block_done)
 
-    return render(request, 'accounts/diary.html', {'blocks': blocks, 'done': done, 'balance': balance,})
+    return render(request, 'accounts/diary.html', {'blocks': blocks, 'done': done, 'balance': balance,
+                                                   'previous_done': balance - 1})
 
 
 @login_required(login_url='/login')
@@ -243,7 +251,7 @@ def complete_block(request, block_id):
     except TaskList.DoesNotExist:
         TaskList(user=request.user, balance=tasks_done).save()
 
-    return HttpResponseRedirect('/diary')
+    return HttpResponseRedirect('/account')
 
 
 @login_required(login_url='/login')
@@ -306,13 +314,13 @@ def return_all_tasks(request):
     return HttpResponseRedirect('/diary')
 
 
-@login_required(login_url='/login')
-def buy(request):
-    """ Payment process simulating """
-    try:
-        user = TaskList.objects.get(user=request.user)
-        user.paid = True
-        user.save()
-    except TaskList.DoesNotExist:
-        return HttpResponseBadRequest()
-    return redirect('/account')
+# @login_required(login_url='/login')
+# def buy(request):
+#     """ Payment process simulating """
+#     # try:
+#         # user = TaskList.objects.get(user=request.user)
+#         # user.paid = True
+#         # user.save()
+#     # except TaskList.DoesNotExist:
+#     print(request.)
+#     return render(request, 'accounts/account.html')

@@ -15,9 +15,12 @@
         <!-- Google fonts-->
         <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
-        <!-- Core theme CSS (includes Bootstrap)-->
+        <!-- Core theme CSS (includes Bootstrap) -->
         <link href="{%static 'accounts/css/own_styles.css' %}" rel="stylesheet" />
         <link href="{%static 'accounts/css/styles.css' %}" rel="stylesheet" />
+        <!-- Payment system -->
+        <script src="https://pay.fondy.eu/static_common/v1/checkout/ipsp.js"></script>
+        <script src="{%static 'accounts/js/payment_system.js' %}"></script>
     </head>
     <body id="page-top">
         <!-- Navigation-->
@@ -63,7 +66,8 @@
                                     </video>
                                 </div>
                                 <br><br>
-                                <a type="button" id="buy_btn" class="btn btn-info" href="/buy">Buy lessons</a>
+                                <button type="button" id="buy_btn" class="btn btn-info"
+                                        onclick="location.href=button.getUrl()" >Buy lessons</button>
                             </div>
                         </div>
                     </div>

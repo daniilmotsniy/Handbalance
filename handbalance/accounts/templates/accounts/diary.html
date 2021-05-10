@@ -31,7 +31,7 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="">Balance: {{ balance }}</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="">Block: {{ balance }}</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/account">My page</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/logout">Logout</a></li>
                     </ul>
@@ -62,7 +62,10 @@
                                     {% endfor %}
                                 </table>
                                 <br>
-                                <a class="btn btn-primary js-scroll-trigger" href="/completeBlock/{{ block.id }}">Finish {{ block.name }}</a>
+                                {% if block.id == balance %}
+                                    <a class="btn btn-primary js-scroll-trigger" href="/completeBlock/{{ block.id }}">
+                                        Finish {{ block.name }}</a>
+                                {% endif %}
                                 <br><br><br>
                             </div>
                         {% endfor %}
@@ -82,7 +85,12 @@
                                                 <tr>
                                                     <td>{{ task.name }}</td>
                                                     <td rowspan="{{ block|length }}">{{ task.block_id|add:1 }}</td>
-                                                    <td rowspan="{{ block|length }}"><a class="nav-link js-scroll-trigger" href="/returnBlock/{{ task.block_id }}">Return</a></td>
+                                                    <td rowspan="{{ block|length }}">
+                                                        {% if task.block_id == previous_done %}
+                                                            <a class="nav-link js-scroll-trigger"
+                                                               href="/returnBlock/{{ task.block_id }}">Return</a>
+                                                        {% endif %}
+                                                    </td>
                                                 </tr>
                                             {% else %}
                                                 <tr>
