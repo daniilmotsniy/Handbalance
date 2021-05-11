@@ -8,7 +8,7 @@
         <meta name="description" content="" />
         <meta name="author" content="" />
         <title>{% block title %}{% endblock %}</title>
-        <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
+        <link rel="icon" type="image/x-icon" href="{%static 'accounts/assets/img/favicon.ico' %}" />
         <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
         <!-- Google fonts-->
@@ -40,6 +40,58 @@
             </div>
         </nav>
         {% block body %}{% endblock %}
+        <!-- Contact-->
+        <section class="contact-section bg-black">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 mb-3 mb-md-0">
+                        <div class="card py-4 h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-envelope text-primary mb-2"></i>
+                                <h4 class="text-uppercase m-0">Email</h4>
+                                <hr class="my-4" />
+                                <div class="small text-black-50"><a href="mailto:rkalachevskyi@gmail.com">rkalachevskyi@gmail.com</a></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3 mb-md-0">
+                        <div class="card py-4 h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-file text-primary mb-2"></i>
+                                <h4 class="text-uppercase m-0">Documents</h4>
+                                <hr class="my-4" />
+                                <div class="small text-black-50"><a href="\privacy">Privacy & Policy</a></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3 mb-md-0">
+                        <div class="card py-4 h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-paper-plane text-primary mb-2"></i>
+                                <h4 class="text-uppercase m-0">Telegram</h4>
+                                <hr class="my-4" />
+                                <div class="small text-black-50"><a href="Tel: +380 (97) 515-5756">+380 (97) 515-5756</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="social d-flex justify-content-center">
+                    <a class="mx-2" href="https://www.facebook.com/rkalachevskiy"><i class="fab fa-facebook-f"></i></a>
+                    <a class="mx-2" href="https://www.instagram.com/rkalachevskyi"><i class="fab fa-instagram"></i></a>
+                </div>
+                <br><br>
+                <div class="d-flex justify-content-center">
+                    <svg width="120" height="70" viewBox="0 0 120 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M68.8628 24.75C71.119 24.75 72.9437 25.2542 74.0941 25.7108L73.3009 30.5843L72.7734 30.3446C71.718 29.8883 70.3249 29.4323 68.4287 29.4805C66.126 29.4805 65.0932 30.4643 65.0693 31.4248C65.0693 32.4814 66.3186 33.1777 68.3586 34.2103C71.719 35.819 73.2776 37.7875 73.2543 40.3567C73.2071 45.0387 69.2229 48.0642 63.103 48.0642C60.4864 48.0399 57.9661 47.4866 56.5982 46.863L57.4144 41.7968L58.1824 42.1574C60.0785 42.9986 61.3262 43.3579 63.6548 43.3579C65.334 43.3579 67.1345 42.661 67.1574 41.149C67.1574 40.1646 66.3904 39.4437 64.1339 38.3393C61.9261 37.2585 58.9743 35.458 59.0222 32.2165C59.047 27.823 63.103 24.75 68.8628 24.75ZM47.1187 47.7275H52.9512L56.599 25.1588H50.7668L47.1187 47.7275ZM81.846 39.7322C82.3263 38.4357 84.1746 33.4177 84.1746 33.4177C84.1648 33.4371 84.2411 33.2255 84.3545 32.911L84.3546 32.9106C84.5221 32.4463 84.7703 31.7578 84.942 31.257L85.3496 33.2016C85.3496 33.2016 86.4541 38.6039 86.6939 39.7322H81.846ZM89.0455 25.1588H84.534C83.1428 25.1588 82.0858 25.5666 81.4856 27.0313L72.8221 47.7272H78.942C78.942 47.7272 79.9496 44.9417 80.1661 44.3418H87.6546C87.822 45.1341 88.3505 47.7272 88.3505 47.7272H93.7508L89.0455 25.1588ZM42.2447 25.1588L36.5328 40.5485L35.9088 37.4281L35.9098 37.4308L33.8698 27.0585C33.534 25.6171 32.5019 25.2089 31.2299 25.1614H21.846L21.75 25.6174C24.0385 26.2029 26.0853 27.0466 27.8788 28.0956L33.0767 47.7036H39.2444L48.4121 25.1588H42.2447Z" fill="#1A1F71"/>
+                    </svg>
+                    <svg width="120" height="70" viewBox="0 0 120 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M68.1094 21.0137H51.8867V50.4849H68.1094V21.0137Z" fill="#FF5F00"/>
+                        <path d="M52.9178 35.7542C52.9178 29.7662 55.6988 24.4551 59.9734 21.0186C56.8319 18.5192 52.8663 17.0092 48.5403 17.0092C38.2916 17.0092 30 25.3924 30 35.7542C30 46.116 38.2916 54.4991 48.5403 54.4991C52.8663 54.4991 56.8319 52.9891 59.9734 50.4898C55.6988 47.1053 52.9178 41.7421 52.9178 35.7542Z" fill="#EC001B"/>
+                        <path d="M89.9968 35.7449C89.9968 46.1067 81.7052 54.4899 71.4566 54.4899C67.1305 54.4899 63.165 52.9799 60.0234 50.4806C64.3495 47.044 67.079 41.7329 67.079 35.7449C67.079 29.757 64.298 24.4459 60.0234 21.0093C63.165 18.51 67.1305 17 71.4566 17C81.7052 17 89.9968 25.4352 89.9968 35.7449Z" fill="#F89E1B"/>
+                    </svg>
+                </div>
+            </div>
+        </section>
         <!-- Footer-->
         <footer class="footer bg-black small text-center text-white-50"><div class="container">Copyright © Handbalance 2021</div></footer>
         <!-- Bootstrap core JS-->

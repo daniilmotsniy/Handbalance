@@ -1,176 +1,118 @@
+{% extends 'accounts/lessons/lessons_base.html' %}
+
 {% load static %}
 
-<!DOCTYPE html>
+{% block title %}
+    Lesson 2
+{% endblock %}
 
-<html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>Account</title>
-        <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
-        <!-- Font Awesome icons (free version)-->
-        <script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
-        <!-- Google fonts-->
-        <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
-        <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="{%static 'accounts/css/own_styles.css' %}" rel="stylesheet" />
-        <link href="{%static 'accounts/css/styles.css' %}" rel="stylesheet" />
-    </head>
-    <body id="page-top">
-        <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
-            <div class="container">
-                <a class="navbar-brand js-scroll-trigger" href="#page-top">H/b online mentor</a>
-                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                    Menu
-                    <i class="fas fa-bars"></i>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarResponsive">
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/account">My account</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/diary">Training diary</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/logout">Logout</a></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-
-        {% if not paid %}
-            <section class="about-section text-center" id="block2">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-8 mx-auto">
-                            <a type="button" id="buy_btn" class="btn btn-info" href="/buy">Buy lessons</a>
-                        </div>
-
-                    </div>
-                </div>
-                <br><br><br>
-            </section>
-        {% endif %}
-
-        {% if paid %}
-            <!-- Lesson 2 -->
-            <section class="about-section text-center" id="block2">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-8 mx-auto">
-                            <h2 class="text-white mb-4">Lesson 2</h2>
-                            <p class="text-white-50">
-                                Before doing handstand, you must train entering. The first main exercise is crease.
-                            </p>
-                            <div>
-                                <video width="690" height="389" controls >
-                                    <source src="{%static 'accounts/assets/videos/lesson2.mp4' %}" type="video/mp4">
-                                </video>
-                            </div>
-                            <br>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <!-- Lesson 2 text -->
-            <section class="projects-section bg-black" id="info2">
-                <div class="container">
-                    <!-- Exercise 1 -->
-                    <div class="row justify-content-center no-gutters">
-                        <div class="col-lg-6"><img class="img-fluid" src="{%static 'accounts/assets/img/lesson2/ex1.png' %}" alt="" /></div>
-                        <div class="col-lg-6 order-lg-first">
-                            <div class="bg-black text-center h-100 project">
-                                <div class="d-flex h-100">
-                                    <div class="project-text w-100 my-auto text-center text-lg-right">
-                                        <h4 class="text-white">Exercise 1</h4>
-                                        <p class="mb-0 text-white-50">
-                                            Initial standing position, stretch your arms forward and keep your back straight,
-                                            bend down, not to bend your knees, try to touch the floor with your palms.
-                                            If it doesn't work out, try to start by touching your fingers to the floor.
-                                            You should feel like a pull under your knees.
-                                            <br>This position you should fix 30 seconds for 3 sets.
-                                        </p>
-                                        <hr class="d-none d-lg-block mb-0 mr-0" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Exercise 2 -->
-                    <div class="row justify-content-center no-gutters mb-5 mb-lg-0">
-                        <div class="col-lg-6"><img class="img-fluid" src="{%static 'accounts/assets/img/lesson2/ex2.png' %}" alt="" /></div>
-                        <div class="col-lg-6">
-                            <div class="bg-black text-center h-100 project">
-                                <div class="d-flex h-100">
-                                    <div class="project-text w-100 my-auto text-center text-lg-left">
-                                        <h4 class="text-white">Exercise 2</h4>
-                                        <p class="mb-0 text-white-50">
-                                            Initial standing position: body is tilted, palms are as close as possible to
-                                            the wall, one leg is placed slightly in front of the second. Wave foot towards the wall.
-                                            Next, when the leg touches the wall, bring the other leg. Hold body as straight
-                                            as possible like in the first lesson. Try to push off the wall with the other foot.
-                                            Frequent mistake is collapse of the shoulders, your can find it in the video.
-                                            Being in a handstand, pull them up, then the position of the body will
-                                            be as even as possible. I strongly recommend pushing off the wall and try to find
-                                            balance - this greatly simplifies studding in the following stages.
-                                            The body should be as even as possible, as shown in the video, in order to keep
-                                            a track of this I recommend filming yourself with a camera, or asking someone
-                                            to correct you.
-                                            <br>Do 10 sets for maximum seconds.
-                                        </p>
-                                        <hr class="d-none d-lg-block mb-0 ml-0" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Exercise 3 -->
-                    <div class="row justify-content-center no-gutters">
-                        <div class="col-lg-6"><img class="img-fluid" src="{%static 'accounts/assets/img/lesson2/ex3.png' %}" alt="" /></div>
-                        <div class="col-lg-6 order-lg-first">
-                            <div class="bg-black text-center h-100 project">
-                                <div class="d-flex h-100">
-                                    <div class="project-text w-100 my-auto text-center text-lg-right">
-                                        <h4 class="text-white">Exercise 3</h4>
-                                        <p class="mb-0 text-white-50">
-                                            This exercise brings your balance well. Initial standing position, bend over,
-                                            put our hands up, lift one leg, then the other.
-                                            Come as close as possible to the wall, thus entering the rack.
-                                            Try to open and then close your legs. Don't forget about even position of the
-                                            body and shoulders over the ears without deflection.
-                                            When you feel confident, I advise you to do it with a partner. Enter in a such
-                                            way the put your hands on the floor and swing into the rack, at this time the
-                                            partner catches your leg. Let him monitor and correct mistakes.
-                                            <br>Do 10 sets for maximum seconds.
-                                        </p>
-                                        <hr class="d-none d-lg-block mb-0 mr-0" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+{% block content %}
+    <!-- Lesson 2 -->
+    <section class="about-section text-center" id="block2">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <h2 class="text-white mb-4">Lesson 2</h2>
+                    <p class="text-white-50">
+                        Before doing handstand, you must train entering. The first main exercise is crease.
+                    </p>
+                    <div>
+                        <video width="690" height="389" controls >
+                            <source src="{%static 'accounts/assets/videos/lesson2.mp4' %}" type="video/mp4">
+                        </video>
                     </div>
                     <br>
                 </div>
-                <!-- Final text -->
-                <div class="bg-black text-center h-50 project">
-                    <div class="project-text w-100 my-auto text-center text-lg-left">
-
+            </div>
+        </div>
+    </section>
+    <!-- Lesson 2 text -->
+    <section class="projects-section bg-black" id="info2">
+        <div class="container">
+            <!-- Exercise 1 -->
+            <div class="row justify-content-center no-gutters">
+                <div class="col-lg-6"><img class="img-fluid" src="{%static 'accounts/assets/img/lesson2/ex1.png' %}" alt="" /></div>
+                <div class="col-lg-6 order-lg-first">
+                    <div class="bg-black text-center h-100 project">
+                        <div class="d-flex h-100">
+                            <div class="project-text w-100 my-auto text-center text-lg-right">
+                                <h4 class="text-white">Exercise 1</h4>
+                                <p class="mb-0 text-white-50">
+                                    Initial standing position, stretch your arms forward and keep your back straight,
+                                    bend down, not to bend your knees, try to touch the floor with your palms.
+                                    If it doesn't work out, try to start by touching your fingers to the floor.
+                                    You should feel like a pull under your knees.
+                                    <br>This position you should fix 30 seconds for 3 sets.
+                                </p>
+                                <hr class="d-none d-lg-block mb-0 mr-0" />
+                            </div>
+                        </div>
                     </div>
-                    {% if balance == 1 %}
-                        <a class="btn btn-primary js-scroll-trigger" href="/completeBlock/1">Finish block 2</a>
-                    {% endif %}
                 </div>
-            </section>
-        {% endif %}
+            </div>
+            <!-- Exercise 2 -->
+            <div class="row justify-content-center no-gutters mb-5 mb-lg-0">
+                <div class="col-lg-6"><img class="img-fluid" src="{%static 'accounts/assets/img/lesson2/ex2.png' %}" alt="" /></div>
+                <div class="col-lg-6">
+                    <div class="bg-black text-center h-100 project">
+                        <div class="d-flex h-100">
+                            <div class="project-text w-100 my-auto text-center text-lg-left">
+                                <h4 class="text-white">Exercise 2</h4>
+                                <p class="mb-0 text-white-50">
+                                    Initial standing position: body is tilted, palms are as close as possible to
+                                    the wall, one leg is placed slightly in front of the second. Wave foot towards the wall.
+                                    Next, when the leg touches the wall, bring the other leg. Hold body as straight
+                                    as possible like in the first lesson. Try to push off the wall with the other foot.
+                                    Frequent mistake is collapse of the shoulders, your can find it in the video.
+                                    Being in a handstand, pull them up, then the position of the body will
+                                    be as even as possible. I strongly recommend pushing off the wall and try to find
+                                    balance - this greatly simplifies studding in the following stages.
+                                    The body should be as even as possible, as shown in the video, in order to keep
+                                    a track of this I recommend filming yourself with a camera, or asking someone
+                                    to correct you.
+                                    <br>Do 10 sets for maximum seconds.
+                                </p>
+                                <hr class="d-none d-lg-block mb-0 ml-0" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Exercise 3 -->
+            <div class="row justify-content-center no-gutters">
+                <div class="col-lg-6"><img class="img-fluid" src="{%static 'accounts/assets/img/lesson2/ex3.png' %}" alt="" /></div>
+                <div class="col-lg-6 order-lg-first">
+                    <div class="bg-black text-center h-100 project">
+                        <div class="d-flex h-100">
+                            <div class="project-text w-100 my-auto text-center text-lg-right">
+                                <h4 class="text-white">Exercise 3</h4>
+                                <p class="mb-0 text-white-50">
+                                    This exercise brings your balance well. Initial standing position, bend over,
+                                    put our hands up, lift one leg, then the other.
+                                    Come as close as possible to the wall, thus entering the rack.
+                                    Try to open and then close your legs. Don't forget about even position of the
+                                    body and shoulders over the ears without deflection.
+                                    When you feel confident, I advise you to do it with a partner. Enter in a such
+                                    way the put your hands on the floor and swing into the rack, at this time the
+                                    partner catches your leg. Let him monitor and correct mistakes.
+                                    <br>Do 10 sets for maximum seconds.
+                                </p>
+                                <hr class="d-none d-lg-block mb-0 mr-0" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+        </div>
+        <!-- Final text -->
+        <div class="bg-black text-center h-50 project">
+            <div class="project-text w-100 my-auto text-center text-lg-left">
 
-        <!-- Footer-->
-        <footer class="footer bg-black small text-center text-white-50"><div class="container">Copyright © Motsachevky 2021</div></footer>
-        <!-- Bootstrap core JS-->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Third party plugin JS-->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
-        <!-- Core theme JS-->
-        <script src="{%static 'accounts/js/scripts.js' %}"></script>
-    </body>
-</html>
+            </div>
+            {% if balance == 1 %}
+                <a class="btn btn-primary js-scroll-trigger" href="/completeBlock/1">Finish block 2</a>
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}
