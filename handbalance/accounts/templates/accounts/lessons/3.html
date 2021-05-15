@@ -27,6 +27,9 @@
             </div>
         </div>
     </section>
+{% endblock %}
+
+{% block text %}
     <!-- Lesson 3 text -->
     <section class="projects-section bg-black" id="info2">
         <div class="container">
@@ -37,7 +40,7 @@
                     <div class="bg-black text-center h-100 project">
                         <div class="d-flex h-100">
                             <div class="project-text w-100 my-auto text-center text-lg-right">
-                                <h4 class="text-white">Exercise 1</h4>
+                                <h4 class="text-white">Exercise 1. Correct fall.</h4>
                                 <p class="mb-0 text-white-50">
                                     Before you start learning handstand without help, first you need to learn
                                     how to fall right. To do it, if you feel that you are losing balance,
@@ -59,7 +62,7 @@
                     <div class="bg-black text-center h-100 project">
                         <div class="d-flex h-100">
                             <div class="project-text w-100 my-auto text-center text-lg-left">
-                                <h4 class="text-white">Exercise 2</h4>
+                                <h4 class="text-white">Exercise 2. Entering to handstand without help.</h4>
                                 <p class="mb-0 text-white-50">
                                     This movement is basic! It will take a lot of time and effort to study it.
                                     So lets start! The initial position of the hand in front of you, one leg
@@ -91,9 +94,6 @@
                     shortcomings near the wall.
                 </p>
             </div>
-            {% if balance == 2 %}
-                <a class="btn btn-primary js-scroll-trigger" href="/completeBlock/2">Finish block 3</a>
-            {% endif %}
         </div>
     </section>
 {% endblock %}

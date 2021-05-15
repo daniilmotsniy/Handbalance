@@ -8,7 +8,7 @@ from django.http import HttpResponseRedirect, HttpResponseBadRequest
 from .forms import CreateUserForm
 from .models import TaskList, TaskBlock
 
-from .res.resorces import blocks_, tasks_per_block_
+from .config import blocks_, tasks_per_block_
 
 
 def login_page(request):
@@ -45,6 +45,19 @@ def register_page(request):
     return render(request, 'accounts/register.html', context)
 
 
+def leaders(request):
+    """ leaders page logic """
+    try:
+        info = TaskList.objects.all()
+        raw = {}
+        for i in info:
+            raw[str(i.user)] = i.balance
+        users = dict(sorted(raw.items(), key=operator.itemgetter(1), reverse=True))
+    except TaskList.DoesNotExist:
+        users = {}
+    return render(request, 'accounts/leaders.html', {'users': users})
+
+
 @login_required(login_url='/login')
 def logout_user(request):
     """ logout logic """
@@ -69,22 +82,6 @@ def account_page(request):
     return render(request, 'accounts/account.html', {'link_to_block': link_to_block, 'paid': paid, 'balance': balance})
 
 
-def leaders(request):
-    """ leaders page logic """
-    try:
-        info = TaskList.objects.all()
-        raw = {}
-        for i in info:
-            raw[str(i.user)] = i.balance
-        users = dict(sorted(raw.items(), key=operator.itemgetter(1), reverse=True))
-    except TaskList.DoesNotExist:
-        users = {}
-    return render(request, 'accounts/leaders.html', {'users': users})
-
-
-# Diary page
-
-
 @login_required(login_url='/login')
 def diary_page(request):
     """ main logic of 'training dairy', information will be shown on all blocks """
@@ -93,6 +90,7 @@ def diary_page(request):
         balance = task_list.balance
     except TaskList.DoesNotExist:
         balance = 0
+
     try:
         done_tasks = {t.block_id: [bool(t.tasks & 1 << i) for i in range(t.tasks_count)]
                       for t in sorted(TaskBlock.objects.filter(user=request.user), key=lambda b: b.block_id)}
@@ -120,30 +118,6 @@ def diary_page(request):
 
     return render(request, 'accounts/diary.html', {'blocks': blocks, 'done': done, 'balance': balance,
                                                    'previous_done': balance - 1})
-
-
-@login_required(login_url='/login')
-def complete_task(request, block_id, task_id):
-    """ moves task to the 'done tasks' """
-    try:
-        block = TaskBlock.objects.get(user=request.user, block_id=block_id)
-
-        block.tasks |= 1 << task_id
-
-        block.save()
-    except TaskBlock.DoesNotExist:
-        TaskBlock(user=request.user, block_id=block_id, tasks=1 << task_id, tasks_count=tasks_per_block_)
-
-    try:
-        done_tasks = TaskList.objects.get(user=request.user)
-
-        done_tasks.balance += 1
-
-        done_tasks.save()
-    except TaskList.DoesNotExist:
-        TaskList(user=request.user, balance=1).save()
-
-    return HttpResponseRedirect('/diary')
 
 
 @login_required(login_url='/login')
@@ -175,12 +149,13 @@ def complete_block(request, block_id):
 
 
 @login_required(login_url='/login')
-def return_task(request, block_id, task_id):
-    """ moves task back to the block """
+def return_block(request, block_id):
+    """ moves block back """
     try:
         done_tasks = TaskList.objects.get(user=request.user)
         block = TaskBlock.objects.get(user=request.user, block_id=block_id)
-        block.tasks ^= 1 << task_id
+        tasks_returned = sum(bool(block.tasks & 1 << i) for i in range(block.tasks_count))
+        block.tasks = 0
         done_tasks.balance -= 1
         done_tasks.save()
         block.save()
@@ -191,13 +166,76 @@ def return_task(request, block_id, task_id):
 
 
 @login_required(login_url='/login')
-def return_block(request, block_id):
-    """ moves block back """
+def lesson(request, block_id):
+    """ lessons page """
+    try:
+        task_list = TaskList.objects.get(user=request.user)
+        paid = task_list.paid
+        balance = task_list.balance
+    except TaskList.DoesNotExist:
+        paid = False
+        balance = 0
+
+    try:
+        done_tasks = {t.block_id: [bool(t.tasks & 1 << i) for i in range(t.tasks_count)]
+                      for t in sorted(TaskBlock.objects.filter(user=request.user, block_id=block_id), key=lambda b: b.block_id)}
+        done_tasks = {k: list(v) for k, v in done_tasks.items()}
+    except TaskBlock.DoesNotExist:
+        done_tasks = {}
+
+    blocks = []
+    done = []
+
+    for block_id_, (name, tasks) in enumerate(blocks_):
+        block_done_tasks = done_tasks.get(block_id_, [False] * tasks_per_block_)
+        block_tasks = []
+        block_done = []
+        for task_id, ((task_name, duration, repetitions), task_done) in enumerate(zip(tasks, block_done_tasks)):
+            task = {'name': task_name, 'duration': duration, 'repetitions': repetitions,
+                    'block_id': block_id_, 'id': task_id}
+
+            (block_done if task_done else block_tasks).append(task)
+
+        if block_tasks:
+            blocks.append({'name': name, 'tasks': block_tasks, 'id': block_id_})
+        if block_done:
+            done.append(block_done)
+
+    return render(request, f'accounts/lessons/{block_id}.html', {'id': block_id-1, 'paid': paid, 'balance': balance,
+                                                                 'blocks': blocks, 'done': done})
+
+
+@login_required(login_url='/login')
+def complete_task(request, block_id, task_id):
+    """ moves task to the 'done tasks' """
+    try:
+        block = TaskBlock.objects.get(user=request.user, block_id=block_id)
+
+        block.tasks |= 1 << task_id
+
+        block.save()
+    except TaskBlock.DoesNotExist:
+        TaskBlock(user=request.user, block_id=block_id, tasks=1 << task_id, tasks_count=tasks_per_block_)
+
+    try:
+        done_tasks = TaskList.objects.get(user=request.user)
+
+        done_tasks.balance += 1
+
+        done_tasks.save()
+    except TaskList.DoesNotExist:
+        TaskList(user=request.user, balance=1).save()
+
+    return HttpResponseRedirect('/diary')
+
+
+@login_required(login_url='/login')
+def return_task(request, block_id, task_id):
+    """ moves task back to the block """
     try:
         done_tasks = TaskList.objects.get(user=request.user)
         block = TaskBlock.objects.get(user=request.user, block_id=block_id)
-        tasks_returned = sum(bool(block.tasks & 1 << i) for i in range(block.tasks_count))
-        block.tasks = 0
+        block.tasks ^= 1 << task_id
         done_tasks.balance -= 1
         done_tasks.save()
         block.save()
@@ -225,17 +263,3 @@ def return_all_tasks(request):
 
     return HttpResponseRedirect('/diary')
 
-
-@login_required(login_url='/login')
-def lesson(request):
-    """ lessons page """
-    try:
-        r_path = request.path
-        task_list = TaskList.objects.get(user=request.user)
-        paid = task_list.paid
-        balance = task_list.balance
-    except TaskList.DoesNotExist:
-        r_path = '/lesson1'
-        paid = False
-        balance = 0
-    return render(request, f'accounts/lessons{r_path}.html', {'paid': paid, 'balance': balance})

@@ -8,7 +8,7 @@
 
 {% block content %}
     <!-- Lesson 1 -->
-    <section class="about-section text-center" id="block1">
+    <section class="about-section text-center">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 mx-auto">
@@ -27,8 +27,11 @@
             </div>
         </div>
     </section>
+{% endblock %}
+
+{% block text %}
     <!-- Lesson 1 text -->
-    <section class="projects-section bg-black" id="info2">
+    <section class="projects-section bg-black">
         <div class="container">
             <!-- Exercise 1 -->
             <div class="row justify-content-center no-gutters">
@@ -37,7 +40,7 @@
                     <div class="bg-black text-center h-100 project">
                         <div class="d-flex h-100">
                             <div class="project-text w-100 my-auto text-center text-lg-right">
-                                <h4 class="text-white">Exercise 1</h4>
+                                <h4 class="text-white">Exercise 1. Floor.</h4>
                                 <p class="mb-0 text-white-50">
                                     Original position lying on the floor. Your body must be maximum straight.
                                     We should lie down straight and forming a right line.
@@ -59,7 +62,7 @@
                     <div class="bg-black text-center h-100 project">
                         <div class="d-flex h-100">
                             <div class="project-text w-100 my-auto text-center text-lg-left">
-                                <h4 class="text-white">Exercise 2</h4>
+                                <h4 class="text-white">Exercise 2. Chair.</h4>
                                 <p class="mb-0 text-white-50">
                                     Imitation handstand with chair.
                                     Firstly, put our feet on a chair.
@@ -90,7 +93,7 @@
                     <div class="bg-black text-center h-100 project">
                         <div class="d-flex h-100">
                             <div class="project-text w-100 my-auto text-center text-lg-right">
-                                <h4 class="text-white">Exercise 3</h4>
+                                <h4 class="text-white">Exercise 3. Wall stand.</h4>
                                 <p class="mb-0 text-white-50">
                                     Next step. Handstand with the wall.
                                     The video where I stand shows how it should be and should not be done.
@@ -119,9 +122,6 @@
 
                 </p>
             </div>
-            {% if balance == 0 %}
-                <a class="btn btn-primary js-scroll-trigger" href="/completeBlock/0">Finish block 1</a>
-            {% endif %}
         </div>
     </section>
 {% endblock %}
