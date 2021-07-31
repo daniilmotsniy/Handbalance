@@ -8,6 +8,8 @@ From root directory (handbalance) run commands:
 
 `docker-compose up`
 
+`docker-compose run web python manage.py makemigrations`
+
 `docker-compose run web python manage.py migrate`
 
 `docker-compose run web python manage.py createsuperuser`
