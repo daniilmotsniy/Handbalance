@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+import psycopg2
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -77,18 +78,30 @@ WSGI_APPLICATION = 'handbalance.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'djongo',
-        "CLIENT": {
-            "name": 'handbalance',
-            "host": 'mongodb+srv://admin:2443@cluster0.y8ry6.mongodb.net/handbalance?retryWrites=true&w=majority',
-            "username": 'admin',
-            "password": '2443',
-            "authMechanism": "SCRAM-SHA-1",
-        },
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'handbalance',
+        'USER': 'postgres',
+        'PASSWORD': 'root',
+        'HOST': 'db',
+        'PORT': '5432',
     }
 }
 
-# For PythonAnyWhere
+# for mongodb
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'djongo',
+#         "CLIENT": {
+#             "name": 'handbalance',
+#             "host": 'mongodb+srv://admin:2443@cluster0.y8ry6.mongodb.net/handbalance?retryWrites=true&w=majority',
+#             "username": 'admin',
+#             "password": '2443',
+#             "authMechanism": "SCRAM-SHA-1",
+#         },
+#     }
+# }
+
+# for PythonAnyWhere
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',

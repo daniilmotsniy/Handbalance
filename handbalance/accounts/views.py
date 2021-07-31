@@ -1,10 +1,13 @@
+import json
 import operator
 
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.http import HttpResponseRedirect, HttpResponseBadRequest
+from django.http import HttpResponseRedirect, HttpResponseBadRequest, HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+
 from .forms import CreateUserForm
 from .models import TaskList, TaskBlock
 
@@ -58,6 +61,15 @@ def leaders(request):
     return render(request, 'accounts/leaders.html', {'users': users})
 
 
+@csrf_exempt
+def buy(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        return HttpResponse(data)
+    else:
+        return redirect('/account')
+
+
 @login_required(login_url='/login')
 def logout_user(request):
     """ logout logic """
@@ -70,15 +82,18 @@ def account_page(request):
     """ this func allows define which block will be shown by 'start training' btn """
     link_to_block = 0
     paid = False
-    try:
-        balance = TaskList.objects.get(user=request.user).balance
-        paid = TaskList.objects.get(user=request.user).paid
-        link_to_block = int(balance) + 1
-        if link_to_block > 5:
-            link_to_block = 5
-    except TaskList.DoesNotExist:
-        balance = 0
-
+    if request.method == 'POST':
+        print(request.read())
+        return HttpResponse("Do something")
+    else:
+        try:
+            balance = TaskList.objects.get(user=request.user).balance
+            paid = TaskList.objects.get(user=request.user).paid
+            link_to_block = int(balance) + 1
+            if link_to_block > 5:
+                link_to_block = 5
+        except TaskList.DoesNotExist:
+            balance = 0
     return render(request, 'accounts/account.html', {'link_to_block': link_to_block, 'paid': paid, 'balance': balance})
 
 
@@ -90,7 +105,6 @@ def diary_page(request):
         balance = task_list.balance
     except TaskList.DoesNotExist:
         balance = 0
-
     try:
         done_tasks = {t.block_id: [bool(t.tasks & 1 << i) for i in range(t.tasks_count)]
                       for t in sorted(TaskBlock.objects.filter(user=request.user), key=lambda b: b.block_id)}
@@ -110,7 +124,6 @@ def diary_page(request):
                     'block_id': block_id, 'id': task_id}
 
             (block_done if task_done else block_tasks).append(task)
-
         if block_tasks:
             blocks.append({'name': name, 'tasks': block_tasks, 'id': block_id})
         if block_done:
@@ -125,11 +138,8 @@ def complete_block(request, block_id):
     """ moves block to the 'done tasks' """
     try:
         block = TaskBlock.objects.get(user=request.user, block_id=block_id)
-
         tasks_done = sum(not block.tasks & 1 << i for i in range(block.tasks_count))
-
         block.tasks = (1 << block.tasks_count) - 1
-
         block.save()
     except TaskBlock.DoesNotExist:
         TaskBlock(user=request.user, block_id=block_id,
@@ -154,7 +164,6 @@ def return_block(request, block_id):
     try:
         done_tasks = TaskList.objects.get(user=request.user)
         block = TaskBlock.objects.get(user=request.user, block_id=block_id)
-        tasks_returned = sum(bool(block.tasks & 1 << i) for i in range(block.tasks_count))
         block.tasks = 0
         done_tasks.balance -= 1
         done_tasks.save()
@@ -175,7 +184,6 @@ def lesson(request, block_id):
     except TaskList.DoesNotExist:
         paid = False
         balance = 0
-
     try:
         done_tasks = {t.block_id: [bool(t.tasks & 1 << i) for i in range(t.tasks_count)]
                       for t in sorted(TaskBlock.objects.filter(user=request.user, block_id=block_id), key=lambda b: b.block_id)}
@@ -200,6 +208,9 @@ def lesson(request, block_id):
             blocks.append({'name': name, 'tasks': block_tasks, 'id': block_id_})
         if block_done:
             done.append(block_done)
+
+    if not block_id:
+        block_id = 1
 
     return render(request, f'accounts/lessons/{block_id}.html', {'id': block_id-1, 'paid': paid, 'balance': balance,
                                                                  'blocks': blocks, 'done': done})

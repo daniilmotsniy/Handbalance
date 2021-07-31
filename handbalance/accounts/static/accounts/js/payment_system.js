@@ -2,7 +2,7 @@ var button = $ipsp.get('button');
 
 button.setMerchantId(1396424);
 button.setAmount(9.99, 'USD', true);
-button.setResponseUrl('/account');
+button.setResponseUrl('/buy');
 button.setHost('pay.fondy.eu');
 button.addField({
     label: 'Your email',

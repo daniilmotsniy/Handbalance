@@ -7,7 +7,7 @@ blocks_ = [('Block 1', [('Warm up', '120', '1'), ('Form a right line with floor'
            ('Block 4', [('Warm up', '120', '1'), ('Lowering into a grouping', 'Max', '10'),
                         ('Handstand legs apart', 'Max', '10'),
                         ('Lowering without help', 'Max', 'Max'), ('Turns', '5-10', '3')]),
-           ('Block 5', [('Warm up', '120', '1'), ('Fold', '20', '2'), ('Corner with legs apart', '10', '2'), ('Corner', 'Max', '3')])]
+           ('Block 5', [('Warm up', '120', '1'), ('Fold', '20', '2'), ('Angle with legs apart', '10', '2'), ('Angle', 'Max', '3')])]
 
 
 # count of tasks in one block
