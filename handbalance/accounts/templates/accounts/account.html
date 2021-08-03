@@ -63,7 +63,9 @@
                         <div class="row">
                             <div class="col-lg-8 mx-auto">
                                 <div>
-                                    <iframe width="690" height="389" src="https://handbalance-lessons.s3.us-east-2.amazonaws.com/intro.mp4" type="video/mp4"></iframe>
+                                    <video width="690" height="389" controls >
+                                        <source src="{%static 'accounts/assets/videos/intro.mp4' %}" type="video/mp4">
+                                    </video>
                                 </div>
                                 <br><br>
                                 <button type="button" id="buy_btn" class="btn btn-info"
@@ -84,7 +86,7 @@
                                 <br>
                                 <div>
                                     <video width="690" height="389" controls >
-                                        <source src="https://handbalance-lessons.s3.us-east-2.amazonaws.com/warm_up.mp4" type="video/mp4">
+                                        <source src="{%static 'accounts/assets/videos/warm_up.mp4' %}" type="video/mp4">
                                     </video>
                                 </div>
                                 <br>
