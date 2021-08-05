@@ -1,4 +1,5 @@
-Login:
+Login & Set Up: 
+
 `ssh -i <filename>.pem.txt ec2-user@<ip>`
 
 `sudo yum install -y docker`
@@ -27,4 +28,9 @@ Login:
 `sudo iptables -t nat -L`
 
 Deploy docker:
+
 `docker-compose -f docker-compose.yaml up -d`
+
+AWS:
+
+` aws s3 cp s3://handbalance/most_city.mp4 most_city.mp4`

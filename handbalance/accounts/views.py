@@ -61,7 +61,6 @@ def leaders(request):
     return render(request, 'accounts/leaders.html', {'users': users})
 
 
-@csrf_exempt
 def buy(request):
     if request.method == 'POST':
         data = json.loads(request.body)
