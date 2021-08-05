@@ -64,6 +64,7 @@ def leaders(request):
 def buy(request):
     if request.method == 'POST':
         data = json.loads(request.body)
+        print(data)
         return HttpResponse(data)
     else:
         return redirect('/account')
